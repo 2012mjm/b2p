@@ -1,0 +1,2 @@
+[08-Sep-2018 16:23:33 UTC] PHP Warning:  require_once(/home/bia2projeh/public_html/../framework/yii.php): failed to open stream: No such file or directory in /home/bia2projeh/public_html/index.php on line 14
+[08-Sep-2018 16:23:33 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/bia2projeh/public_html/../framework/yii.php' (include_path='.:/opt/cpanel/ea-php56/root/usr/share/pear') in /home/bia2projeh/public_html/index.php on line 14
