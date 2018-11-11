@@ -25,18 +25,22 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 
 	<?php if(!empty($model->statusReason) AND $model->reasonOnlyShowAdmin != '1') echo '<br><div class="alert alert-warning" role="alert"><strong style="color:red">یادداشت مدیر:</strong> '.$model->statusReason.'</div><br>'; ?>
 
+	<?php foreach($model->product2subcategories as $product2subcategory) : ?>
+		<?php $categories[] = CHtml::link($product2subcategory->subcategory->category->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->category->name))).'<span>&raquo;</span>'.CHtml::link($product2subcategory->subcategory->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'subId'=>$product2subcategory->subcategoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->name))); ?>
+	<?php endforeach; ?>
+
+	<?php foreach($model->product2tags as $product2tag) : ?>
+		<?php $tags[] = $product2tag->tag->name; ?>
+	<?php endforeach; ?>
+
 	<?php
 		$this->widget('bootstrap.widgets.TbDetailView', array(
 		    'data'=>$model,
 		    'attributes'=>array(
 				array(
-					'name'=>'subcategory.category.name',
-				),
-				array(
-					'name'=>'subcategory.name',
-				),
-				array(
-					'name'=>'title',
+					'label'=>'دسته‌ها',
+					'value'=>implode(' | ',$categories),
+					'type'=>'raw',
 				),
 				array(
 					'name'=>'price',
@@ -78,6 +82,11 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 				array(
 					'name'=>'projehFileId',
 					'value'=>($model->projehFile) ? CHtml::link(substr($model->projehFile->fileName, strpos($model->projehFile->fileName, '_')+1), Yii::app()->baseUrl.$model->projehFile->filePath.$model->projehFile->fileName) : null,
+					'type'=>'raw',
+				),
+				array(
+					'label'=>'تگ‌ها',
+					'value'=>implode(' , ',$tags),
 					'type'=>'raw',
 				),
 		    ),

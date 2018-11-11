@@ -45,8 +45,6 @@ class ManageproductController extends Controller
 		$criteria->order = 't.id DESC';
 		$criteria->limit = 20;
 		$criteria->together = true;
-		$criteria->with[] = 'subcategory';
-		$criteria->with[] = 'subcategory.category';
 
 		$dataProvider = new CActiveDataProvider('Product', array(
 			'criteria'=>$criteria,
@@ -99,14 +97,24 @@ class ManageproductController extends Controller
 		}
 
 		$currentTag = $viewModel->tags;
+		$currentCategory = $viewModel->categories;
+
 		if(isset($_POST['ProductViewModel']))
 		{
 			$viewModel->attributes 	= $_POST['ProductViewModel'];
 			$viewModel->photo 		= CUploadedFile::getInstance($viewModel, 'photo');
 			$viewModel->demoFile 	= CUploadedFile::getInstance($viewModel, 'demoFile');
 			$viewModel->projehFile 	= CUploadedFile::getInstance($viewModel, 'projehFile');
-			$viewModel->price 		*= 10;
 		
+			//get categories
+			foreach (Subcategory::model()->with(array('category'))->findAll() as $subcategoryModel) {
+				foreach($viewModel->categories as $i=>$subcategory) {
+					if($subcategory == $subcategoryModel->id) {
+						$viewModel->categories[$i] = $subcategoryModel->category->name.' - '.$subcategoryModel->name;
+					}
+				}
+			}
+
 			if ($viewModel->validate())
 			{
 				if($productService->update($viewModel))
@@ -122,6 +130,9 @@ class ManageproductController extends Controller
 					//update tags
 					$productService->setTags($viewModel->tags, $id, $currentTag);
 
+					//update categories
+					$productService->setCategories($viewModel->categories, $id, $currentCategory);
+
 					Yii::app()->user->setFlash('success', yii::t('form', 'Changes were successfully updated.'));
 					$this->redirect(array('index'));
 				}
@@ -130,10 +141,6 @@ class ManageproductController extends Controller
 				}
 			}
 		}
-		
-		$subcategoryArray = SubcategoryService::subcategoryList();
-		$cs = Yii::app()->clientScript;
-		$cs->registerScript('subcategoryArray', 'var subcategoryArray='.CJavaScript::encode($subcategoryArray).';', CClientScript::POS_HEAD);
 
 		$this->render('update', array(
 			'viewModel'=>$viewModel,

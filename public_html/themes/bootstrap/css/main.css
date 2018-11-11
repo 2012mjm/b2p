@@ -467,3 +467,8 @@ i.icon-red-email {
 .navbar-inverse .brand {
 	display:none;
 }
+.category-label a {
+	color: #fff;
+	font-size: 15px;
+	padding: 2px 3px;
+}

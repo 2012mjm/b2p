@@ -13,8 +13,6 @@ class ProductService
 		$criteria->with[] = 'photo';
 		$criteria->with[] = 'demoFile';
 		$criteria->with[] = 'projehFile';
-		$criteria->with[] = 'subcategory';
-		$criteria->with[] = 'subcategory.category';
 		$criteria->together = true;
 		
 		$model = Product::model()->find($criteria);
@@ -26,7 +24,7 @@ class ProductService
 			$viewModel->attributes 	= $model->attributes;
 			$viewModel->id = $model->id;
 				
-			$viewModel->categoryId 		= $model->subcategory->categoryId;
+			// $viewModel->categoryId 		= $model->subcategory->categoryId;
 			$viewModel->photoPath 		= ($model->photo) 		? Yii::app()->baseUrl . $model->photo->filePath . $model->photo->fileName : null;
 			$viewModel->demoFilePath 	= ($model->demoFile) 	? Yii::app()->baseUrl . $model->demoFile->filePath . $model->demoFile->fileName : null;
 				
@@ -36,6 +34,11 @@ class ProductService
 			//get tags
 			foreach ($model->product2tags as $product2tag) {
 				$viewModel->tags[$product2tag->tag->id] = $product2tag->tag->name;
+			}
+
+			//get categories
+			foreach ($model->product2subcategories as $product2subcategory) {
+				$viewModel->categories[$product2subcategory->subcategory->id] = $product2subcategory->subcategory->category->name.' - '.$product2subcategory->subcategory->name;
 			}
 		
 			return $viewModel;
@@ -50,7 +53,7 @@ class ProductService
 	 */
 	public function getProductIdActive($id, $viewModel=null)
 	{
-		$model = Product::model()->with(array('photo', 'user', 'demoFile', 'subcategory', 'subcategory.category'))->findByAttributes(array('id'=>$id, 'status'=>'active'));
+		$model = Product::model()->with(array('photo', 'user', 'demoFile'))->findByAttributes(array('id'=>$id, 'status'=>'active'));
 		
 		if($viewModel !== null) {
 			$viewModel->attributes = $model->attributes;
@@ -75,8 +78,7 @@ class ProductService
 		$criteria->with[] = 'photo';
 		$criteria->with[] = 'demoFile';
 		$criteria->with[] = 'projehFile';
-		$criteria->with[] = 'subcategory';
-		$criteria->with[] = 'subcategory.category';
+		$criteria->with[] = 'product2subcategories';
 		$criteria->with[] = 'product2tags.tag';
 		$criteria->together = true;
 
@@ -85,7 +87,6 @@ class ProductService
 		if($viewModel !== null) {
 			$viewModel->attributes 	= $model->attributes;
 			
-			$viewModel->categoryId 		= $model->subcategory->categoryId;
 			$viewModel->photoPath 		= ($model->photo) 		? Yii::app()->baseUrl . $model->photo->filePath . $model->photo->fileName : null;
 			$viewModel->demoFilePath 	= ($model->demoFile) 	? Yii::app()->baseUrl . $model->demoFile->filePath . $model->demoFile->fileName : null;
 			
@@ -95,6 +96,11 @@ class ProductService
 			//get tags
 			foreach ($model->product2tags as $product2tag) {
 				$viewModel->tags[$product2tag->tag->id] = $product2tag->tag->name;
+			}
+
+			//get categories
+			foreach ($model->product2subcategories as $product2subcategory) {
+				$viewModel->categories[$product2subcategory->subcategory->id] = $product2subcategory->subcategory->category->name.' - '.$product2subcategory->subcategory->name;
 			}
 			
 			return $viewModel;
@@ -178,8 +184,6 @@ class ProductService
 		$criteria->limit = 20;
 		$criteria->together = true;
 		$criteria->with[] = 'photo';
-		$criteria->with[] = 'subcategory';
-		$criteria->with[] = 'subcategory.category';
 		
 		$productsDataProvider = new CActiveDataProvider('Product', array(
 			'criteria'=>$criteria,
@@ -243,6 +247,7 @@ class ProductService
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
 		}
 		
+		$model->price *= 10;
 		if($model->save()) {
 			return $model;
 		}
@@ -294,6 +299,7 @@ class ProductService
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
 		}
 		
+		$model->price *= 10;
 		return $model->save();
 	}
 
@@ -311,10 +317,11 @@ class ProductService
 		
 		//exist subId
 		if($subId != 0) {
-			$criteria->compare('t.subcategoryId', $subId);
+			$criteria->with[] = 'product2subcategories';
+			$criteria->compare('product2subcategories.subcategoryId', $subId);
 		}
 		else {
-			$criteria->with[] = 'subcategory';
+			$criteria->with[] = 'product2subcategories.subcategory';
 			$criteria->compare('subcategory.categoryId', $id);
 		}
 
@@ -477,6 +484,7 @@ class ProductService
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
 		}
 		
+		$model->price *= 10;
 		return $model->save();
 	}
 	
@@ -689,6 +697,39 @@ class ProductService
 			Product2tag::model()->deleteAll($criteria);
 		}
 		
+		return true;
+	}
+
+	public function setCategories($currentCategories, $productId, $oldCategories=array())
+	{
+		foreach (Subcategory::model()->with(array('category'))->findAll() as $subcategory) {
+			$list[$subcategory->category->name.' - '.$subcategory->name] = $subcategory->id;
+		}
+
+		foreach($currentCategories as $i=>$currentCategory) {
+			$currentCategories[$i] = $list[$currentCategory];
+		}
+		$oldCategories = array_keys($oldCategories);
+
+		// add subcategory to product2subcaterory
+		$existCategories = array_diff($currentCategories, $oldCategories);
+		foreach ($existCategories as $id)
+		{
+			$product2subcateroryModel = new Product2subcategory();
+			$product2subcateroryModel->productId = $productId;
+			$product2subcateroryModel->subcategoryId = $id;
+			$product2subcateroryModel->save();
+		}
+
+		//remove subcategories from product2subcategory
+		$exteraCategories = array_diff($oldCategories, $currentCategories);
+		if($exteraCategories)
+		{
+			$criteria = new CDbCriteria();
+			$criteria->addInCondition('subcategoryId', $exteraCategories);
+			$criteria->compare('productId', $productId);
+			Product2subcategory::model()->deleteAll($criteria);
+		}
 		return true;
 	}
 	

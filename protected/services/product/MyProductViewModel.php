@@ -2,8 +2,8 @@
 class MyProductViewModel extends CFormModel
 {
 	public $id;
+	public $categories;
 	public $userId;
-	public $subcategoryId;
 	public $title;
 	public $shortDescription;
 	public $description;
@@ -16,7 +16,6 @@ class MyProductViewModel extends CFormModel
 	public $status;
 	public $tags;
 	
-	public $categoryId;
 	public $photoPath;
 	public $demoFilePath;
 	public $projehFilePath;
@@ -35,8 +34,7 @@ class MyProductViewModel extends CFormModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('categoryId, subcategoryId, title, description', 'required'),
-			array('subcategoryId', 'numerical', 'integerOnly'=>true),
+			array('categories, title, description', 'required'),
 			array('price', 'numerical', 'integerOnly'=>true, 'min'=>Yii::app()->setting->minPrice),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>45),
@@ -85,8 +83,7 @@ class MyProductViewModel extends CFormModel
 		return array(
 			'id' => 'ID',
 			'userId' 			=> Yii::t('product', 'User'),
-			'categoryId' 		=> Yii::t('product', 'Category'),
-			'subcategoryId' 	=> Yii::t('product', 'Subcategory'),
+			'categories' 		=> Yii::t('product', 'دسته‌ها'),
 			'title' 			=> Yii::t('product', 'Product Title'),
 			'shortDescription' 	=> Yii::t('product', 'Short Description'),
 			'description' 		=> Yii::t('product', 'Description'),

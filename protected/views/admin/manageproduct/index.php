@@ -39,14 +39,14 @@ $this->breadcrumbs=array(
         	'type'=>'raw'
         ),
 		'countSell',
-        array(
-        	'name'=>'subcategory.categoryId',
-        	'value'=>'$data->subcategory->category->name',
-        ),
-        array(
-        	'name'=>'subcategoryId',
-        	'value'=>'$data->subcategory->name',
-        ),
+        // array(
+        // 	'name'=>'subcategory.categoryId',
+        // 	'value'=>'$data->subcategory->category->name',
+        // ),
+        // array(
+        // 	'name'=>'subcategoryId',
+        // 	'value'=>'$data->subcategory->name',
+        // ),
         array(
         	'name'=>'creationDate',
         	'value'=>'Yii::app()->jdate->date("j F Y - g:i a", strtotime($data->creationDate))',

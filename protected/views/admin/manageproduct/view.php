@@ -18,17 +18,22 @@ $this->menu=array(
 
 <?php if(!empty($model->statusReason)) echo '<br><div class="alert alert-warning" role="alert"><strong style="color:red">یادداشت مدیر:</strong> '.$model->statusReason.'</div><br>'; ?>
 
+<?php foreach($model->product2subcategories as $product2subcategory) : ?>
+	<?php $categories[] = CHtml::link($product2subcategory->subcategory->category->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->category->name))).'<span>&raquo;</span>'.CHtml::link($product2subcategory->subcategory->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'subId'=>$product2subcategory->subcategoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->name))); ?>
+<?php endforeach; ?>
+
+<?php foreach($model->product2tags as $product2tag) : ?>
+	<?php $tags[] = $product2tag->tag->name; ?>
+<?php endforeach; ?>
+
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
 	'attributes'=>array(
 		'title',
 		array(
-			'name'=>'categoryId',
-			'value'=>$model->subcategory->category->name
-		),
-		array(
-			'name'=>'subcategoryId',
-			'value'=>$model->subcategory->name
+			'label'=>'دسته‌ها',
+			'value'=>implode(' | ',$categories),
+			'type'=>'raw',
 		),
 		'shortDescription',
 		'description',
@@ -64,6 +69,11 @@ $this->menu=array(
 		array(
 			'name'=>'projehFileId',
 			'value'=>($model->projehFile) ? CHtml::link(Yii::t('product', 'Download current file'), Yii::app()->baseUrl.$model->projehFile->filePath.$model->projehFile->fileName) : null,
+			'type'=>'raw',
+		),
+		array(
+			'label'=>'تگ‌ها',
+			'value'=>implode(' , ',$tags),
 			'type'=>'raw',
 		),
 	),

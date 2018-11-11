@@ -6,7 +6,6 @@
  * The followings are the available columns in table '{{product}}': 
  * @property integer $id
  * @property integer $userId
- * @property integer $subcategoryId
  * @property string $title
  * @property string $shortDescription
  * @property string $description
@@ -28,7 +27,6 @@
  * @property File $projehFile
  * @property File $photo
  * @property User $user
- * @property Subcategory $subcategory
  * @property Report[] $reports
  * @property Product2tag[] $product2tags
  */ 
@@ -60,8 +58,8 @@ class Product extends CActiveRecord implements IECartPosition
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('userId, subcategoryId, title, shortDescription, projehFileId, creationDate', 'required'),
-			array('userId, subcategoryId, photoId, demoFileId, projehFileId, price, visit, countSell, reasonOnlyShowAdmin', 'numerical', 'integerOnly'=>true),
+			array('userId, title, shortDescription, projehFileId, creationDate', 'required'),
+			array('userId, photoId, demoFileId, projehFileId, price, visit, countSell, reasonOnlyShowAdmin', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>45),
 			array('status', 'length', 'max'=>8),
@@ -69,7 +67,7 @@ class Product extends CActiveRecord implements IECartPosition
 			array('description, updateDate', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, userId, subcategoryId, title, shortDescription, description, photoId, demoFileId, projehFileId, price, visit, countSell, creationDate, updateDate, status, reasonOnlyShowAdmin', 'safe', 'on'=>'search'),
+			array('id, userId, title, shortDescription, description, photoId, demoFileId, projehFileId, price, visit, countSell, creationDate, updateDate, status, reasonOnlyShowAdmin', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,9 +85,9 @@ class Product extends CActiveRecord implements IECartPosition
             'demoFile' => array(self::BELONGS_TO, 'File', 'demoFileId'),
             'projehFile' => array(self::BELONGS_TO, 'File', 'projehFileId'),
             'user' => array(self::BELONGS_TO, 'User', 'userId'),
-            'subcategory' => array(self::BELONGS_TO, 'Subcategory', 'subcategoryId'),
             'reports' => array(self::HAS_MANY, 'Report', 'productId'),
 			'product2tags' => array(self::HAS_MANY, 'Product2tag', 'productId'),
+			'product2subcategories' => array(self::HAS_MANY, 'Product2subcategory', 'productId'),
 		);
 	}
 
@@ -101,7 +99,6 @@ class Product extends CActiveRecord implements IECartPosition
 		return array(
 			'id' => 'ID',
 			'userId' 			=> Yii::t('product', 'User'),
-			'subcategoryId' 	=> Yii::t('product', 'Subcategory'),
 			'title' 			=> Yii::t('product', 'Product Title'),
 			'shortDescription' 	=> Yii::t('product', 'Short Description'),
 			'description' 		=> Yii::t('product', 'Description'),
@@ -132,7 +129,6 @@ class Product extends CActiveRecord implements IECartPosition
 
         $criteria->compare('id',$this->id);
         $criteria->compare('userId',$this->userId);
-        $criteria->compare('subcategoryId',$this->subcategoryId);
         $criteria->compare('title',$this->title,true);
         $criteria->compare('shortDescription',$this->shortDescription,true);
         $criteria->compare('description',$this->description,true);

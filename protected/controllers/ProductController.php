@@ -17,7 +17,7 @@ class ProductController extends Controller
 		return array(
 				array('allow', // allow all users to access all actions.
 						'users' => array('@'),
-						'actions' => array('my', 'myView', 'myUpdate', 'myCreate', 'myDelete', 'ajaxTag'),
+						'actions' => array('my', 'myView', 'myUpdate', 'myCreate', 'myDelete', 'ajaxTag', 'ajaxCategory'),
 				),
 				array('allow', // allow all visitors to access all actions.
 						'users' => array('*'),
@@ -80,6 +80,8 @@ class ProductController extends Controller
 			$viewModel->price /= 10;
 
 			$currentTag = $viewModel->tags;
+			$currentCategory = $viewModel->categories;
+
 			if(isset($_POST['MyProductViewModel']))
 			{
 				$viewModel->attributes 	= $_POST['MyProductViewModel'];
@@ -87,7 +89,15 @@ class ProductController extends Controller
 				$viewModel->photo 		= CUploadedFile::getInstance($viewModel, 'photo');
 				$viewModel->demoFile 	= CUploadedFile::getInstance($viewModel, 'demoFile');
 				$viewModel->projehFile 	= CUploadedFile::getInstance($viewModel, 'projehFile');
-				$viewModel->price *= 10;
+
+				//get categories
+				foreach (Subcategory::model()->with(array('category'))->findAll() as $subcategoryModel) {
+					foreach($viewModel->categories as $i=>$subcategory) {
+						if($subcategory == $subcategoryModel->id) {
+							$viewModel->categories[$i] = $subcategoryModel->category->name.' - '.$subcategoryModel->name;
+						}
+					}
+				}
 
 				if ($viewModel->validate())
 				{
@@ -103,6 +113,9 @@ class ProductController extends Controller
 						
 						//update tags
 						$service->setTags($viewModel->tags, $id, $currentTag);
+
+						//set category for product
+						$service->setCategories($viewModel->categories, $id, $currentCategory);
 						
 						Yii::app()->user->setFlash('success', yii::t('form', 'Changes were successfully updated.'));
 						$this->redirect(array('/product/my'));
@@ -112,10 +125,6 @@ class ProductController extends Controller
 					}
 				}
 			}
-
-			$subcategoryArray = SubcategoryService::subcategoryList();
-			$cs = Yii::app()->clientScript;
-			$cs->registerScript('subcategoryArray', 'var subcategoryArray='.CJavaScript::encode($subcategoryArray).';', CClientScript::POS_HEAD);
 
 			$this->render('myUpdate', array(
 				'viewModel'=>$viewModel,
@@ -143,7 +152,15 @@ class ProductController extends Controller
 			$viewModel->demoFile 	= CUploadedFile::getInstance($viewModel, 'demoFile');
 			$viewModel->projehFile 	= CUploadedFile::getInstance($viewModel, 'projehFile');
 			//$viewModel->attaches	= CUploadedFile::getInstances($viewModel, 'attaches');
-			$viewModel->price *= 10;
+
+			//get categories
+			foreach (Subcategory::model()->with(array('category'))->findAll() as $subcategoryModel) {
+				foreach($viewModel->categories as $i=>$subcategory) {
+					if($subcategory == $subcategoryModel->id) {
+						$viewModel->categories[$i] = $subcategoryModel->category->name.' - '.$subcategoryModel->name;
+					}
+				}
+			}
 
 			if ($viewModel->validate())
 			{
@@ -160,6 +177,9 @@ class ProductController extends Controller
 					
 					//set tag for this product
 					$service->setTags($viewModel->tags, $model->id);
+
+					//set category for product
+					$service->setCategories($viewModel->categories, $model->id);
 						
 					Yii::app()->user->setFlash('success', yii::t('form', 'The data was successfully created.'));
 					$this->redirect(array('/product/my'));
@@ -169,10 +189,6 @@ class ProductController extends Controller
 				}
 			}
 		}
-		
-		$subcategoryArray = SubcategoryService::subcategoryList();
-		$cs = Yii::app()->clientScript;
-		$cs->registerScript('subcategoryArray', 'var subcategoryArray='.CJavaScript::encode($subcategoryArray).';', CClientScript::POS_HEAD);
 
 		$this->render('myCreate', array(
 			'viewModel'=>$viewModel,
@@ -541,6 +557,38 @@ class ProductController extends Controller
 				'id'	=> $q,
 				'text'	=> $q,
 				'count'	=> 0,
+			);
+		}
+		
+		echo json_encode(array(
+			'total_count'=>count($models),
+			'items'=>$items,
+		));
+	}
+	
+	public function actionAjaxCategory()
+	{
+		$qList = explode(' ', $_GET['q']);
+		
+		$criteria = new CDbCriteria();
+
+		foreach($qList as $q) {
+			$criteria->compare('t.name', $q, true, 'OR');
+			$criteria->compare('category.name', $q, true, 'OR');
+		}
+
+		$criteria->together = true;
+		$criteria->with[] = 'category';
+		
+		$models = Subcategory::model()->findAll($criteria);
+		
+		$items = array();
+		$exist = false;
+		foreach ($models as $model)
+		{
+			$items[] = array(
+				'id'	=> $model->id,
+				'text'	=> $model->category->name.' - '.$model->name,
 			);
 		}
 		

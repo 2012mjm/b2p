@@ -63,10 +63,16 @@
 			<?php echo Yii::app()->jdate->date("j F Y - g:i a", strtotime($model->creationDate)); ?>
 
 			<br>
-			<?php echo Yii::t('product', 'Category'); ?> : 
-			<?php echo CHtml::link($model->subcategory->category->name, array('/product/category', 'id'=>$model->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($model->subcategory->category->name))); ?>
-			<span>&raquo;</span>
-			<?php echo CHtml::link($model->subcategory->name, array('/product/category', 'id'=>$model->subcategory->categoryId, 'subId'=>$model->subcategoryId, 'title'=>Text::generateSeoUrlPersian($model->subcategory->name))); ?>
+			<?php echo Yii::t('product', 'گروه‌ها'); ?> : 
+
+			<?php foreach($model->product2subcategories as $product2subcategory) : ?>
+				<?php $this->widget('bootstrap.widgets.TbLabel', array(
+					'type'=>'info', // 'success', 'warning', 'important', 'info' or 'inverse'
+					'encodeLabel'=>false,
+					'label'=>CHtml::link($product2subcategory->subcategory->category->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->category->name))).'<span>&raquo;</span>'.CHtml::link($product2subcategory->subcategory->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'subId'=>$product2subcategory->subcategoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->name))),
+					'htmlOptions'=>array('class'=>'category-label')
+				)); ?>
+			<?php endforeach; ?>
 			
 			<?php if($model->product2tags) : ?>
 				<br><br>

@@ -1,6 +1,6 @@
 <?php 
 Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/select2.min.js');
-Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/category.js');
+// Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/category.js');
 Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/projehFile.js');
 Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/demoFile.js');
 Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/js/photoFile.js');
@@ -64,8 +64,49 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 				searching: function (){ return "در حال جستجو…" }
     		}
 		});
-						
-		//$(".tags").select2("val", "CA"); //set the value
+
+		function formatRepoCategory(repo)
+		{
+			if (repo.loading) return repo.text;
+			var markup = "<div class=\"clearfix\">" + repo.text;
+			markup += "</div>";
+			return markup;
+		}
+		
+		function formatRepoSelectionCategory(repo) {
+			return repo.text;
+		}
+
+		$(".category").select2({
+			ajax : {
+				url : "'. Yii::app()->createUrl('/product/ajaxCategory') .'",
+				dataType : "json",
+				delay : 250,
+				data : function(params) {
+					return {
+						q : params.term, // search term
+						page : params.page
+					};
+				},
+				processResults : function(data, page) {
+					// parse the results into the format expected by Select2.
+					// since we are using custom formatting functions we do not need to
+					// alter the remote JSON data
+					return {
+						results : data.items
+					};
+				},
+				cache : true
+			},
+			escapeMarkup : function(markup) { return markup; }, // let our custom formatter work
+			minimumInputLength : 0,
+			templateResult : formatRepoCategory, // omitted for brevity, see the source of
+			templateSelection : formatRepoSelectionCategory,
+			language: {
+      			inputTooShort: function () { return "حداقل دو حرف برای جستجو وارد کنید."; },
+				searching: function (){ return "در حال جستجو…" }
+    		}
+		});
 	});
 ');
 ?>
@@ -103,10 +144,7 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 
 	<?php echo $form->errorSummary($viewModel); ?>
 
-
-	<?php echo $form->dropDownListRow($viewModel, 'categoryId', CategoryService::getCategoriesList(), array('id'=>'categories-list', 'empty' => Yii::t('form', 'Selected'), 'title'=>$viewModel->categoryId)); ?>
-	
-	<?php echo $form->dropDownListRow($viewModel, 'subcategoryId', array(), array('id'=>'subcategories-list', 'title'=>$viewModel->subcategoryId)); ?>
+	<?php echo $form->dropDownListRow($viewModel, 'categories', Text::valueToKey($viewModel->categories), array('class'=>'category span5', 'multiple'=>'multiple')); ?>
 
 	<?php echo $form->textFieldRow($viewModel,'title'); ?>
 

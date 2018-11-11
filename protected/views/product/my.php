@@ -36,12 +36,6 @@ $this->siteTitle = Yii::app()->name.' - '.Yii::t('main', 'My Projects');
 	    ),
 		'columns'=>array(
 			array(
-				'name'=>'subcategory.category.name',
-			),
-			array(
-				'name'=>'subcategory.name',
-			),
-			array(
 				'name'=>'title',
 				'value'=>'CHtml::link($data->title, array("/product/view", "id"=>$data->id, "title"=>Text::generateSeoUrlPersian($data->title)))',
 				'type'=>'raw',
