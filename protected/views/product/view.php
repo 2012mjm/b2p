@@ -103,7 +103,7 @@
 	
 	<div class="span9">
 		<hr />
-		<div class="description"><?php echo ($model->description) ? $model->description : $model->shortDescription; ?></div>
+		<div class="description"><h3>توضیحات</h3><?php echo ($model->description) ? $model->description : $model->shortDescription; ?></div>
 	</div>
 
 	<?php if($dataProviderRelatedProducts->getItemCount() > 0) : ?>
