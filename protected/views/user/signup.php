@@ -74,6 +74,11 @@ Yii::app()->getClientScript()->registerScriptFile(Yii::app()->theme->baseUrl.'/j
             'label'=>yii::t('user', 'Signup'),
         ));
         ?>
+        <?php $this->widget('bootstrap.widgets.TbButton', array(
+		    'label'=>Yii::t('form', 'Cancel'),
+			'url'=>Yii::app()->homeUrl,
+		    'type'=>'danger',
+		)); ?>
 	</div>
 <?php $this->endWidget(); ?>
 
