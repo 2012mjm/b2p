@@ -20,34 +20,30 @@
 			
 			<br>
 			<?php $this->widget('bootstrap.widgets.TbButton', array(
-		            'type'=>'danger',
-		            'label'=>Yii::t('product', 'Add to shopping cart'),
+		            'type'=>'info',
+		            'label'=>'<span style="padding-left:10px">خرید پروژه</span> '.Yii::app()->format->formatPrice($model->price),
 					'url'=>array('product/addShoppingCart', 'id'=>$model->id),
 					'block'=>(!$model->demoFile) ? true : false,
+					'encodeLabel'=>false,
+					'size'=>'large'
 		        )); ?>
-
+			
 			<?php if($model->demoFile) : ?>
 				<?php $this->widget('bootstrap.widgets.TbButton', array(
-			            'type'=>'info',
+			            'type'=>'primary',
 			            'label'=>Yii::t('product', 'Receive demo file'),
 						'url'=>$model->demoFile->filePath.$model->demoFile->fileName,
+						'size'=>'large',
+						'htmlOptions'=>array('style'=>'margin-top:5px')
 				)); ?>
 			<?php endif; ?>
 		</div>
 		
 		<div class="span6">
-			<h2><?php echo CHtml::encode($model->title); ?></h2>
+
+			<h3><?php echo CHtml::encode($model->title); ?></h3>
 			
-			<?php $this->widget('bootstrap.widgets.TbLabel', array(
-			    'type'=>'important', // 'success', 'warning', 'important', 'info' or 'inverse'
-				'encodeLabel'=>false,
-			    'label'=>Yii::app()->format->formatPrice($model->price),
-				'htmlOptions'=>array('class'=>'price-product price-product-large')
-			)); ?>
-			
-			<br>
 			<?php echo Yii::t('product', 'Author'); ?>
-			
 			<?php
 				$urlAuthor = array('/product/author', 'username'=>$model->user->username);
 				
@@ -57,13 +53,9 @@
 			?>
 			
 			<?php echo CHtml::link($model->user->username.(($model->user->firstname || $model->user->lastname) ? ' ('.$model->user->firstname.' '.$model->user->lastname.')' : null), $urlAuthor); ?>
-			
-			<br>
-			<?php echo Yii::t('product', 'At date'); ?> : 
-			<?php echo Yii::app()->jdate->date("j F Y - g:i a", strtotime($model->creationDate)); ?>
 
 			<br>
-			<?php echo Yii::t('product', 'گروه‌ها'); ?> : 
+			<?php echo Yii::t('product', 'گروه‌ها'); ?>
 
 			<?php foreach($model->product2subcategories as $product2subcategory) : ?>
 				<?php $this->widget('bootstrap.widgets.TbLabel', array(
@@ -98,6 +90,16 @@
 			    'label'=>CHtml::link($model->subcategory->name, array('/product/category', 'id'=>$model->subcategory->categoryId, 'subId'=>$model->subcategoryId, 'title'=>Text::generateSeoUrlPersian($model->subcategory->name))),
 				'htmlOptions'=>array('class'=>'subcategory-product')
 			));*/ ?>
+
+			<div style="margin-top:40px">
+				<time style=""><i class="icon-time"></i> <?php echo Yii::app()->jdate->date("j F Y - g:i a", strtotime($model->creationDate)); ?></time>
+				
+				<?php if($model->countSell) : ?>
+					<div><i class="icon-shopping-cart"></i> خریداری شده: <?php echo $model->countSell; ?> بار</div>
+				<?php endif; ?>
+				
+				<div><i class="icon-eye-open"></i> بازدید: <?php echo $model->visit; ?> بار</div>
+			</div>
 		</div>
 	</div>
 	
