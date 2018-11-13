@@ -182,6 +182,7 @@ echo '</div>' . "\n";
 	<hr>
 	
 	<div class="row">
+		<?php if($this->showSidebar) : ?>
 		<div class="span3 span3-custom">
 		
 			<?php if(!$this->isLocal) : ?>
@@ -275,7 +276,9 @@ echo '</div>' . "\n";
 				?>
 			</div>
 		</div>
-		<div class="span9 span9-custom">
+		<?php endif; ?>
+
+		<div class="<?php echo ($this->showSidebar) ? 'span9 span9-custom' : 'span12 span12-custom'; ?>">
 			<?php echo $content; ?>
 		</div>
 	</div>

@@ -7,6 +7,7 @@ class ManageorderController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
+	public $showSidebar = false;
 
 	/**
 	 * @return array action filters
@@ -55,6 +56,9 @@ class ManageorderController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$orderService = new OrderService();
+		$totalComission = $orderService->getTotalComission();
+
 		$criteria = new CDbCriteria;
 		$criteria->order = 't.id DESC';
 		$criteria->limit = 20;
@@ -72,6 +76,7 @@ class ManageorderController extends Controller
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'totalComission'=>$totalComission,
 		));
 	}
 

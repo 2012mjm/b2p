@@ -7,6 +7,7 @@ class ConvertController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/main';
+	public $showSidebar = false;
 
 	/**
 	 * @return array action filters

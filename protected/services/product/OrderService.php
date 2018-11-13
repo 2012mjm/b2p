@@ -581,5 +581,22 @@ class OrderService
 
 		return Order::model()->count($criteria);
 	}
+	
+	/**
+	 * get sum order
+	 */
+	public function getTotalComission()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('t.status', 'accepted');
+		$criteria->select = 'SUM(t.count * t.price) AS id';
+		
+		$model = Order::model()->find($criteria);
+		
+		if($model) {
+			return $model->id * Yii::app()->setting->comission / 100;
+		}
+		return 0;
+	}
 }
 ?>

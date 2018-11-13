@@ -1,4 +1,9 @@
 <h1><?php echo Yii::t('order', 'Manage Orders'); ?></h1>
+<br>
+
+<blockquote>
+	<p>مجموع پورسانت: <span style="color:green"><?php echo Yii::app()->format->formatPrice($totalComission); ?></span></p>
+</blockquote>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'order-grid',
@@ -42,6 +47,12 @@
 			'header'=>'وضعیت خواندن',
 			'type'=>'raw',
 			'value'=>'($data->isRead) ? "<span style=\"color:green\">خوانده شده</span>" : "<span style=\"color:red\">خوانده نشده</span>"',
+		),
+		array(
+			'name'=>'product.title',
+			'value'=>'($data->status == "accepted") ? Yii::app()->format->formatPrice($data->price*Yii::app()->setting->comission/100) : "-"',
+			'header'=>Yii::t("product", "پورسانت"),
+			'type'=>'raw',
 		),
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',

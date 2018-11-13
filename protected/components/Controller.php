@@ -26,6 +26,8 @@ class Controller extends CController
 	public $siteKeywords;
 
 	public $isLocal;
+
+	public $showSidebar = true;
 	
 
 	public function init()
