@@ -110,7 +110,7 @@
 	
 	<div class="description" style="text-align: justify;">
 		<h3>توضیحات</h3>
-		<?php echo $model->description; ?>
+		<?php echo str_replace(array('<hr>','<hr />','<hr/>'), '', $model->description); ?>
 	</div>
 
 	<?php if($dataProviderRelatedProducts->getItemCount() > 0) : ?>
