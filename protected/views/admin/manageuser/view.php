@@ -14,11 +14,18 @@ $this->menu=array(
 );
 ?>
 
-<h1>کاربر <?php echo $model->username; ?></h1>
+<?php
+$urlAuthor = array('/product/author', 'username'=>$model->username);
+if(($model->firstname || $model->lastname) AND !empty(Text::generateSeoUrlPersian($model->firstname.' '.$model->lastname))) {
+	$urlAuthor = array_merge($urlAuthor, array('name'=>Text::generateSeoUrlPersian($model->firstname.' '.$model->lastname)));
+}
+?>
+<h1><?php echo CHtml::link($model->username, $urlAuthor); ?></h1>
+
 
 <div class="view"> 
 
-	<div class="span9">
+	<div class="span12">
 		<blockquote>
 			<h3>مشخصات کاربری</h3>
 		</blockquote>
