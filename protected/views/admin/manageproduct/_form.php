@@ -105,7 +105,8 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			language: {
       			inputTooShort: function () { return "حداقل دو حرف برای جستجو وارد کنید."; },
 				searching: function (){ return "در حال جستجو…" }
-    		}
+    		},
+			placeholder: "دسته مورد نظر را تایپ کنید"
 		});
 	});
 ');
