@@ -58,7 +58,7 @@ class Product extends CActiveRecord implements IECartPosition
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('userId, title, shortDescription, projehFileId, creationDate', 'required'),
+			array('userId, title, description, projehFileId, creationDate', 'required'),
 			array('userId, photoId, demoFileId, projehFileId, price, visit, countSell, reasonOnlyShowAdmin', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>45),

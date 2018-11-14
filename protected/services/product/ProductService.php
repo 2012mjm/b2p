@@ -228,9 +228,9 @@ class ProductService
 		
 		$model = new Product();
 		$model->setAttributes($viewModel->attributes);
-		if(empty($model->shortDescription)) {
-			$model->shortDescription = trim(Text::ellipsis(strip_tags($model->description), 43));
-		}
+		// if(empty($model->shortDescription)) {
+		// 	$model->shortDescription = trim(Text::ellipsis(strip_tags($model->description), 43));
+		// }
 
 		//photo
 		if($viewModel->photo) {
@@ -274,9 +274,9 @@ class ProductService
 		}
 
 		$model->setAttributes($viewModel->attributes);
-		if(empty($model->shortDescription)) {
-			$model->shortDescription = trim(Text::ellipsis(strip_tags($model->description), 43));
-		}
+		// if(empty($model->shortDescription)) {
+		// 	$model->shortDescription = trim(Text::ellipsis(strip_tags($model->description), 43));
+		// }
 
 		//photo
 		if($viewModel->photo) {
@@ -633,8 +633,8 @@ class ProductService
 		$criteria = new CDbCriteria;
 
 		$criteria->addSearchCondition('t.title', 			$model->title);
-		$criteria->addSearchCondition('t.shortDescription', $model->shortDescription, true, 'OR');
-		//$criteria->addSearchCondition('t.description', 		$model->description, true, 'OR');
+		// $criteria->addSearchCondition('t.shortDescription', $model->shortDescription, true, 'OR');
+		$criteria->addSearchCondition('t.description', 		$model->description, true, 'OR');
 		
 		$criteria->compare('t.id', '<>'.$model->id);
 		$criteria->compare('t.status', 'active');

@@ -78,7 +78,7 @@ body {
     top: 40px;
 }
 .product-item {
-	min-height: 233px;
+	min-height: 210px;
 	margin-bottom: 15px;
 }
 .title-product {
@@ -232,7 +232,7 @@ tfoot td {
 	}
 	.product-item {
 		padding: 7px;
-		min-height: 233px;
+		min-height: 210px;
 	}
 	.pic-product-index img {
 		height: 100px;
@@ -265,7 +265,7 @@ tfoot td {
 	}
 	.product-item {
 		padding: 5px;
-		min-height: 223px;
+		min-height: 200px;
 	}
 	.pic-product-index img {
 		height: 90px;

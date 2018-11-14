@@ -102,10 +102,15 @@
 			</div>
 		</div>
 	</div>
+	<hr />
+
+	<div style="background-color: #49afcd14;padding: 10px 10px 1px;border-right: 5px solid #49afcd;">
+		<p><?php echo (empty($model->shortDescription)) ? trim(Text::ellipsis(strip_tags($model->description), 100)) : $model->shortDescription; ?></p>
+	</div>
 	
-	<div class="span9">
-		<hr />
-		<div class="description"><h3>توضیحات</h3><?php echo ($model->description) ? $model->description : $model->shortDescription; ?></div>
+	<div class="description" style="text-align: justify;">
+		<h3>توضیحات</h3>
+		<?php echo $model->description; ?>
 	</div>
 
 	<?php if($dataProviderRelatedProducts->getItemCount() > 0) : ?>

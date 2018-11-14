@@ -4,22 +4,24 @@
 		
 		<h3 class="title-product"><?php echo CHtml::link(CHtml::encode($data->title), array('/product/view', 'id'=>$data->id, 'title'=>Text::generateSeoUrlPersian($data->title)), array('rel'=>'tooltip', 'data-title'=>$data->title)); ?></h3>
 		
-		<?php $this->widget('bootstrap.widgets.TbLabel', array(
+		<?php /*$this->widget('bootstrap.widgets.TbLabel', array(
 		    'type'=>'important', // 'success', 'warning', 'important', 'info' or 'inverse'
 			'encodeLabel'=>false,
 		    'label'=>Yii::app()->format->formatPrice($data->price),
 			'htmlOptions'=>array('class'=>'price-product')
-		)); ?>
+		));*/ ?>
 		
-		<div class="description-product"><?php echo $data->shortDescription; ?></div>
+		<div class="description-product"><?php echo (empty($data->shortDescription)) ? trim(Text::ellipsis(strip_tags($data->description), 100)) : $data->shortDescription; ?></div>
 		
 		<div class="button-product">
 			<?php $this->widget('bootstrap.widgets.TbButton', array(
-	            'type'=>'primary',
+	            'type'=>'danger',
 				'size'=>'small',
 				'block'=>true,
-	            'label'=>Yii::t('product', 'Add to shopping cart'),
+	            'label'=>'خرید '.Yii::app()->format->formatPrice($data->price),
 				'url'=>array('product/addShoppingCart', 'id'=>$data->id),
+				'encodeLabel'=>false,
+				'htmlOptions'=>array('style'=>'font-size:16px')
 	        )); ?>
 	     </div>
 	</div>

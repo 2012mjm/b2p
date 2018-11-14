@@ -35,7 +35,7 @@ class ProductViewModel extends CFormModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('categories, title, shortDescription', 'required'),
+			array('categories, title, description', 'required'),
 			array('price', 'numerical', 'integerOnly'=>true, 'min'=>Yii::app()->setting->minPrice),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>45),
