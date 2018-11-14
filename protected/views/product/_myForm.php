@@ -150,7 +150,23 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 
 	<?php echo $form->textAreaRow($viewModel,'shortDescription', array('class'=>'span3', 'rows'=>3)); ?>
 
-	<?php echo $form->textAreaRow($viewModel,'description', array('class'=>'span5', 'rows'=>4)); ?>
+	<div class="control-group">
+		<?php echo $form->labelEx($viewModel, 'description', array('class'=>'control-label')); ?>
+		<div class="controls">
+			<?php $this->widget('ext.editMe.widgets.ExtEditMe', array(
+				'model'=>$viewModel,
+				'attribute'=>'description',
+				'autoLanguage' => false,
+				'width' => '100%',
+				'toolbar'=>array(
+					array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat', '-', 'Link', 'Unlink', ),
+					array('Image', 'Table', 'HorizontalRule', 'SpecialChar'),
+					array('FontSize', 'TextColor', 'BGColor',)
+				),
+			));
+			?>
+		</div>
+	</div>
 		
 	<?php /*
 	<div class="control-group">

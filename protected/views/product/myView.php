@@ -52,6 +52,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 				),
 				array(
 					'name'=>'description',
+					'type'=>'raw',
 				),
 				array(
 					'name'=>'photoId',
