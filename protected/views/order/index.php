@@ -12,6 +12,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Orders');
 
 <blockquote>
 	<p>در صورت خرید یک پروژه و نامرتبط بودن محتویات فایل ها، می توانید از طریق کلید گزارش تخلف در جلوی <strong>پروژه های پرداخت شده</strong>، گزارش خود را به مدیریت اطلاع دهید، و پس از بررسی گزارش شما، در صورت نامرتبط بودن محتویات فایل ها، هزینه پروژه کسر شده به حساب شما بازگشت داده می‌شود.</p>
+	<p style="color: #f89406;">توجه: برای ارسال گزارش تخلف در رابطه با هر پروژه خریداری شده حداکثر 48 ساعت فرصت دارید.</p>
 </blockquote>
 
 <hr>
@@ -68,6 +69,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Orders');
 	        				'data-toggle'=>'modal',
 	        				'class'=>'report-button',
 	       				),
+						'visible'=>'strtotime($data->creationDate)+172800 >= time()', //24 hours
 	       			)
 	       		)
 	        ),

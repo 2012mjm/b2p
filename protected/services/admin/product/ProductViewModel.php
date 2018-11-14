@@ -38,7 +38,7 @@ class ProductViewModel extends CFormModel
 			array('categories, title, description', 'required'),
 			array('price', 'numerical', 'integerOnly'=>true, 'min'=>Yii::app()->setting->minPrice),
 			array('title', 'length', 'max'=>128),
-			array('shortDescription', 'length', 'max'=>45),
+			array('shortDescription', 'length', 'max'=>40),
 			array('status', 'length', 'max'=>8),
 			array('description, updateDate, photo, demoFile, creationDate, userId, tags', 'safe'),
 			array('id', 'unsafe'),

@@ -61,8 +61,10 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			templateSelection : formatRepoSelection,
 			language: {
       			inputTooShort: function () { return "حداقل دو حرف برای جستجو وارد کنید."; },
-				searching: function (){ return "در حال جستجو…" }
-    		}
+				searching: function (){ return "در حال جستجو…" },
+				maximumSelected: function () { return "حداکثر پنج تگ می‌توانید انتخاب نمایید." }
+			},
+			maximumSelectionLength: 5
 		});
 
 		function formatRepoCategory(repo)
@@ -104,8 +106,11 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			templateSelection : formatRepoSelectionCategory,
 			language: {
       			inputTooShort: function () { return "حداقل دو حرف برای جستجو وارد کنید."; },
-				searching: function (){ return "در حال جستجو…" }
-    		}
+				searching: function (){ return "در حال جستجو…" },
+				maximumSelected: function () { return "حداکثر سه دسته می‌توانید انتخاب نمایید." }
+			},
+			placeholder: "دسته مورد نظر را تایپ کنید",
+			maximumSelectionLength: 3
 		});
 	});
 ');

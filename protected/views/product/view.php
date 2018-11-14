@@ -20,13 +20,12 @@
 			
 			<br>
 			<?php $this->widget('bootstrap.widgets.TbButton', array(
-		            'type'=>'info',
-		            'label'=>'<span style="padding-left:10px">خرید پروژه</span> '.Yii::app()->format->formatPrice($model->price),
-					'url'=>array('product/addShoppingCart', 'id'=>$model->id),
-					'block'=>(!$model->demoFile) ? true : false,
-					'encodeLabel'=>false,
-					'size'=>'large'
-		        )); ?>
+				'type'=>'info',
+				'label'=>'خرید پروژه',
+				'url'=>array('product/addShoppingCart', 'id'=>$model->id),
+				'block'=>(!$model->demoFile) ? true : false,
+				'size'=>'large'
+			)); ?>
 			
 			<?php if($model->demoFile) : ?>
 				<?php $this->widget('bootstrap.widgets.TbButton', array(
@@ -42,6 +41,14 @@
 		<div class="span6">
 
 			<h3><?php echo CHtml::encode($model->title); ?></h3>
+			
+			<?php $this->widget('bootstrap.widgets.TbLabel', array( 
+				'type'=>'important', // 'success', 'warning', 'important', 'info' or 'inverse' 
+				'encodeLabel'=>false, 
+				'label'=>Yii::app()->format->formatPrice($model->price), 
+				'htmlOptions'=>array('class'=>'price-product price-product-large') 
+			)); ?> 
+			<br>
 			
 			<?php echo Yii::t('product', 'Author'); ?>
 			<?php
@@ -67,14 +74,13 @@
 			<?php endforeach; ?>
 			
 			<?php if($model->product2tags) : ?>
-				<br><br>
-				<?php echo Yii::t('product', 'تگ ها'); ?> :
-				
-				<?php foreach ($model->product2tags as $product2tag) : ?>
-					<?php $tags[] = CHtml::link('#'.$product2tag->tag->name, array('/product/tag', 'id'=>$product2tag->tagId, 'title'=>Text::generateSeoUrlPersian($product2tag->tag->name))); ?>
-				<?php endforeach; ?>
-				
-				<?php echo implode(' , ', $tags); ?>
+				<div style="margin-top: 5px; font-size: 14px;">
+					<?php echo Yii::t('product', 'تگ ها'); ?>
+					<?php foreach ($model->product2tags as $product2tag) : ?>
+						<?php $tags[] = CHtml::link('#'.$product2tag->tag->name, array('/product/tag', 'id'=>$product2tag->tagId, 'title'=>Text::generateSeoUrlPersian($product2tag->tag->name))); ?>
+					<?php endforeach; ?>
+					<?php echo implode(' , ', $tags); ?>
+				</div>
 			<?php endif; ?>
 			
 			<?php /*$this->widget('bootstrap.widgets.TbLabel', array(
@@ -104,12 +110,11 @@
 	</div>
 	<hr />
 
-	<div style="background-color: #49afcd14;padding: 10px 10px 1px;border-right: 5px solid #49afcd;">
+	<div style="background-color: #49afcd14;padding: 10px 10px 1px;border-right: 5px solid #49afcd; margin-bottom: 15px;">
 		<p><?php echo (empty($model->shortDescription)) ? trim(Text::ellipsis(strip_tags($model->description), 100)) : $model->shortDescription; ?></p>
 	</div>
 	
 	<div class="description" style="text-align: justify;">
-		<h3>توضیحات</h3>
 		<?php echo str_replace(array('<hr>','<hr />','<hr/>'), '', $model->description); ?>
 	</div>
 
