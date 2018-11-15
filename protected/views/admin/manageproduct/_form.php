@@ -249,6 +249,17 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 
 	<hr>
 
+	<?php echo $form->dropDownListRow($viewModel, 'format', Text::valueToKey(array_map('trim', explode(',', Yii::app()->setting->projehFormat))), array('class'=>'format span5', 'multiple'=>'multiple')); ?>
+	<div class="control-group">
+		<div class="controls">
+			<blockquote>
+				<small>فرمت فایل‌های موجود درون پروژه خود را انتخاب نمایید.</small>
+			</blockquote>
+		</div>
+	</div>
+
+	<?php echo $form->textFieldRow($viewModel, 'countPage'); ?>
+
 	<div class="control-group">
 		<?php echo $form->labelEx($viewModel, 'demoFile', array('class'=>'control-label')); ?>
 		<div class="controls">
@@ -332,18 +343,6 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			</blockquote>
 		</div>
 	</div>
-
-	<?php echo $form->dropDownListRow($viewModel, 'format', Text::valueToKey(array_map('trim', explode(',', Yii::app()->setting->projehFormat))), array('class'=>'format span5', 'multiple'=>'multiple')); ?>
-
-	<div class="control-group">
-		<div class="controls">
-			<blockquote>
-				<small>فرمت فایل‌های موجود درون پروژه خود را انتخاب نمایید.</small>
-			</blockquote>
-		</div>
-	</div>
-
-	<?php echo $form->textFieldRow($viewModel, 'countPage'); ?>
 
 	<div class="form-actions">
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
