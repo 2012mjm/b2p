@@ -108,6 +108,25 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
     		},
 			placeholder: "دسته مورد نظر را تایپ کنید"
 		});
+
+		function formatRepoFormat(repo)
+		{
+			if (repo.loading) return repo.text;
+			var markup = "<div class=\"clearfix\">" + repo.text;
+			markup += "</div>";
+			return markup;
+		}
+		
+		function formatRepoSelectionFormat(repo) {
+			return repo.text;
+		}
+
+		$(".format").select2({
+			escapeMarkup : function(markup) { return markup; }, // let our custom formatter work
+			minimumInputLength : 0,
+			templateResult : formatRepoFormat, // omitted for brevity, see the source of
+			templateSelection : formatRepoSelectionFormat,
+		});
 	});
 ');
 ?>
@@ -313,6 +332,18 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			</blockquote>
 		</div>
 	</div>
+
+	<?php echo $form->dropDownListRow($viewModel, 'format', Text::valueToKey(array_map('trim', explode(',', Yii::app()->setting->projehFormat))), array('class'=>'format span5', 'multiple'=>'multiple')); ?>
+
+	<div class="control-group">
+		<div class="controls">
+			<blockquote>
+				<small>فرمت فایل‌های موجود درون پروژه خود را انتخاب نمایید.</small>
+			</blockquote>
+		</div>
+	</div>
+
+	<?php echo $form->textFieldRow($viewModel, 'countPage'); ?>
 
 	<div class="form-actions">
 	<?php $this->widget('bootstrap.widgets.TbButton', array(

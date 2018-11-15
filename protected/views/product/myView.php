@@ -90,6 +90,8 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 					'value'=>implode(' , ',$tags),
 					'type'=>'raw',
 				),
+				'format',
+				'countPage',
 		    ),
 		));
 	?>

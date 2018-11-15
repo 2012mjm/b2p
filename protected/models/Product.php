@@ -59,7 +59,7 @@ class Product extends CActiveRecord implements IECartPosition
 		// will receive user inputs.
 		return array(
 			array('userId, title, description, projehFileId, creationDate', 'required'),
-			array('userId, photoId, demoFileId, projehFileId, price, visit, countSell, reasonOnlyShowAdmin', 'numerical', 'integerOnly'=>true),
+			array('userId, countPage, photoId, demoFileId, projehFileId, price, visit, countSell, reasonOnlyShowAdmin', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>45),
 			array('status', 'length', 'max'=>8),
@@ -67,7 +67,7 @@ class Product extends CActiveRecord implements IECartPosition
 			array('description, updateDate', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, userId, title, shortDescription, description, photoId, demoFileId, projehFileId, price, visit, countSell, creationDate, updateDate, status, reasonOnlyShowAdmin', 'safe', 'on'=>'search'),
+			array('id, userId, title, shortDescription, format, countPage, description, photoId, demoFileId, projehFileId, price, visit, countSell, creationDate, updateDate, status, reasonOnlyShowAdmin', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -112,7 +112,9 @@ class Product extends CActiveRecord implements IECartPosition
 			'updateDate' 		=> Yii::t('product', 'Update Date'),
 			'status' 			=> Yii::t('product', 'Status'),
 			'statusReason' 		=> Yii::t('product', 'Status Reason'),
-			'reasonOnlyShowAdmin' => 'نمایش تنها برای مدیر',
+			'reasonOnlyShowAdmin' => Yii::t('product', 'نمایش تنها برای مدیر'),
+			'format' 			=> Yii::t('product', 'فرمت‌های پروژه'),
+			'countPage'			=> Yii::t('product', 'تعداد صفحات پروژه'),
 		);
 	}
 

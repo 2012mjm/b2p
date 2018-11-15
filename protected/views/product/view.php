@@ -17,8 +17,60 @@
 					<?php echo CHtml::image(Yii::app()->theme->baseUrl.'/img/pic-product.jpg'); ?>
 				<?php endif; ?>
 			</div>
+		</div>
+		
+		<div class="span6">
+
+			<h3><?php echo CHtml::encode($model->title); ?></h3>
 			
-			<br>
+
+			<div>
+				<div style="width:50px; float:right"><?php echo Yii::t('product', 'قیمت'); ?></div>
+				<div style="width:500px; float:right">
+					<?php $this->widget('bootstrap.widgets.TbLabel', array( 
+						'type'=>'important', // 'success', 'warning', 'important', 'info' or 'inverse' 
+						'encodeLabel'=>false, 
+						'label'=>Yii::app()->format->formatPrice($model->price), 
+						'htmlOptions'=>array('class'=>'price-product price-product-large') 
+					)); ?> 
+				</div>
+			</div>
+
+			<div>
+				<div style="width:50px; float:right"><?php echo Yii::t('product', 'گروه‌ها'); ?></div>
+				<div style="width:500px; float:right">
+					<?php foreach($model->product2subcategories as $product2subcategory) : ?>
+						<?php $this->widget('bootstrap.widgets.TbLabel', array(
+							'type'=>'info',
+							'encodeLabel'=>false,
+							'label'=>CHtml::link($product2subcategory->subcategory->category->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->category->name))).'<span>&raquo;</span>'.CHtml::link($product2subcategory->subcategory->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'subId'=>$product2subcategory->subcategoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->name))),
+							'htmlOptions'=>array('class'=>'category-label')
+						)); ?>
+						<br>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			
+			<div class="clearfix"></div>
+			<?php if($model->product2tags) : ?>
+				<div class="tags-label">
+					<div style="width:50px; float:right"><?php echo Yii::t('product', 'تگ ها'); ?></div>
+					<div style="width:500px; float:right">
+						<?php foreach ($model->product2tags as $product2tag) : ?>
+							<?php $this->widget('bootstrap.widgets.TbLabel', array(
+								'label' => CHtml::link('# '.$product2tag->tag->name, array('/product/tag', 'id'=>$product2tag->tagId, 'title'=>Text::generateSeoUrlPersian($product2tag->tag->name))),
+								'encodeLabel'=>false,
+							)); ?>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+
+	<hr />
+	<div class="row">
+		<div class="span3" style="padding-top: 11px;">
 			<?php $this->widget('bootstrap.widgets.TbButton', array(
 				'type'=>'info',
 				'label'=>'خرید پروژه',
@@ -29,87 +81,45 @@
 			
 			<?php if($model->demoFile) : ?>
 				<?php $this->widget('bootstrap.widgets.TbButton', array(
-			            'type'=>'primary',
-			            'label'=>Yii::t('product', 'Receive demo file'),
+						'type'=>'primary',
+						'label'=>Yii::t('product', 'Receive demo file'),
 						'url'=>$model->demoFile->filePath.$model->demoFile->fileName,
 						'size'=>'large',
-						'htmlOptions'=>array('style'=>'margin-top:5px')
 				)); ?>
 			<?php endif; ?>
 		</div>
-		
-		<div class="span6">
+		<div class="span2" style="line-height: 25px;">
+			<time style=""><i class="icon-time"></i> <?php echo Yii::app()->jdate->date("j F Y", strtotime($model->creationDate)); ?></time>	
+			<div><i class="icon-shopping-cart"></i> خریداری شده: <?php echo $model->countSell; ?> بار</div>
+			<div><i class="icon-eye-open"></i> بازدید: <?php echo $model->visit; ?> بار</div>
+		</div>
+		<div class="span4" style="line-height: 25px;">
 
-			<h3><?php echo CHtml::encode($model->title); ?></h3>
-			
-			<?php $this->widget('bootstrap.widgets.TbLabel', array( 
-				'type'=>'important', // 'success', 'warning', 'important', 'info' or 'inverse' 
-				'encodeLabel'=>false, 
-				'label'=>Yii::app()->format->formatPrice($model->price), 
-				'htmlOptions'=>array('class'=>'price-product price-product-large') 
-			)); ?> 
-			<br>
-			
-			<?php echo Yii::t('product', 'Author'); ?>
-			<?php
-				$urlAuthor = array('/product/author', 'username'=>$model->user->username);
-				
-				if(($model->user->firstname || $model->user->lastname) AND !empty(Text::generateSeoUrlPersian($model->user->firstname.' '.$model->user->lastname))) {
-					$urlAuthor = array_merge($urlAuthor, array('name'=>Text::generateSeoUrlPersian($model->user->firstname.' '.$model->user->lastname)));
-				}
-			?>
-			
-			<?php echo CHtml::link($model->user->username.(($model->user->firstname || $model->user->lastname) ? ' ('.$model->user->firstname.' '.$model->user->lastname.')' : null), $urlAuthor); ?>
+			<div><i class="icon-user"></i>  ایجاد شده توسط: 
+				<?php
+					$urlAuthor = array('/product/author', 'username'=>$model->user->username);
+					if(($model->user->firstname || $model->user->lastname) AND !empty(Text::generateSeoUrlPersian($model->user->firstname.' '.$model->user->lastname))) {
+						$urlAuthor = array_merge($urlAuthor, array('name'=>Text::generateSeoUrlPersian($model->user->firstname.' '.$model->user->lastname)));
+					}
+					echo CHtml::link($model->user->username.(($model->user->firstname || $model->user->lastname) ? ' ('.$model->user->firstname.' '.$model->user->lastname.')' : null), $urlAuthor);
+				?>
+			</div>
 
-			<br>
-			<?php echo Yii::t('product', 'گروه‌ها'); ?>
-
-			<?php foreach($model->product2subcategories as $product2subcategory) : ?>
-				<?php $this->widget('bootstrap.widgets.TbLabel', array(
-					'type'=>'info', // 'success', 'warning', 'important', 'info' or 'inverse'
-					'encodeLabel'=>false,
-					'label'=>CHtml::link($product2subcategory->subcategory->category->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->category->name))).'<span>&raquo;</span>'.CHtml::link($product2subcategory->subcategory->name, array('/product/category', 'id'=>$product2subcategory->subcategory->categoryId, 'subId'=>$product2subcategory->subcategoryId, 'title'=>Text::generateSeoUrlPersian($product2subcategory->subcategory->name))),
-					'htmlOptions'=>array('class'=>'category-label')
-				)); ?>
-			<?php endforeach; ?>
-			
-			<?php if($model->product2tags) : ?>
-				<div style="margin-top: 5px; font-size: 14px;">
-					<?php echo Yii::t('product', 'تگ ها'); ?>
-					<?php foreach ($model->product2tags as $product2tag) : ?>
-						<?php $tags[] = CHtml::link('#'.$product2tag->tag->name, array('/product/tag', 'id'=>$product2tag->tagId, 'title'=>Text::generateSeoUrlPersian($product2tag->tag->name))); ?>
+			<?php if($model->format) : ?>
+				<div><i class="icon-th-large"></i> فرمت‌های پروژه
+					<?php foreach(explode(',', $model->format) as $format) : ?>
+						<?php $this->widget('bootstrap.widgets.TbLabel', array('label'=>$format)); ?>
 					<?php endforeach; ?>
-					<?php echo implode(' , ', $tags); ?>
 				</div>
 			<?php endif; ?>
-			
-			<?php /*$this->widget('bootstrap.widgets.TbLabel', array(
-			    'type'=>'info', // 'success', 'warning', 'important', 'info' or 'inverse'
-				'encodeLabel'=>false,
-				'label'=>CHtml::link($model->subcategory->category->name, array('/product/category', 'id'=>$model->subcategory->categoryId, 'title'=>Text::generateSeoUrlPersian($model->subcategory->category->name))),
-				'htmlOptions'=>array('class'=>'category-product')
-			));*/ ?>
-			
-			<?php /*$this->widget('bootstrap.widgets.TbLabel', array(
-			    'type'=>'info', // 'success', 'warning', 'important', 'info' or 'inverse'
-				'encodeLabel'=>false,
-			    'label'=>CHtml::link($model->subcategory->name, array('/product/category', 'id'=>$model->subcategory->categoryId, 'subId'=>$model->subcategoryId, 'title'=>Text::generateSeoUrlPersian($model->subcategory->name))),
-				'htmlOptions'=>array('class'=>'subcategory-product')
-			));*/ ?>
-
-			<div style="margin-top:40px">
-				<time style=""><i class="icon-time"></i> <?php echo Yii::app()->jdate->date("j F Y - g:i a", strtotime($model->creationDate)); ?></time>
-				
-				<?php if($model->countSell) : ?>
-					<div><i class="icon-shopping-cart"></i> خریداری شده: <?php echo $model->countSell; ?> بار</div>
-				<?php endif; ?>
-				
-				<div><i class="icon-eye-open"></i> بازدید: <?php echo $model->visit; ?> بار</div>
-			</div>
+			<?php if($model->countPage > 0) : ?>
+				<div><i class="icon-file"></i> تعداد <?php echo $model->countPage; ?> صفحه</div>
+			<?php endif; ?>
 		</div>
 	</div>
-	<hr />
 
+	<hr />
+	
 	<div style="background-color: #49afcd14;padding: 10px 10px 1px;border-right: 5px solid #49afcd; margin-bottom: 15px;">
 		<p><?php echo (empty($model->shortDescription)) ? trim(Text::ellipsis(strip_tags($model->description), 100)) : $model->shortDescription; ?></p>
 	</div>
@@ -130,13 +140,6 @@
 					'pagerCssClass' => 'pagination',
 					'enableHistory' => true,
 					'template'=>"{items}",
-					/*'pager'=>array(
-						'class'=>'bootstrap.widgets.TbPager',
-						'nextPageLabel'=>'&larr;',
-						'prevPageLabel'=>'&rarr;',
-						'firstPageLabel'=>Yii::t('main', '&laquo; First'),
-						'lastPageLabel'=>Yii::t('main', 'Last &raquo;'),
-					),*/
 				));
 			?>
 		</div>

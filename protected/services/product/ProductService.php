@@ -93,6 +93,8 @@ class ProductService
 			$viewModel->projehFilePath	= ($model->projehFile) 	? Yii::app()->baseUrl . $model->projehFile->filePath . $model->projehFile->fileName : null;
 			$viewModel->projehFileName 	= ($model->projehFile) 	? substr($model->projehFile->fileName, strpos($model->projehFile->fileName, '_')+1) : null;
 
+			$viewModel->format 			= Text::valueToKey(array_map('trim', explode(',', $model->format)));
+
 			//get tags
 			foreach ($model->product2tags as $product2tag) {
 				$viewModel->tags[$product2tag->tag->id] = $product2tag->tag->name;
@@ -246,7 +248,12 @@ class ProductService
 		if($viewModel->projehFile) {
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
 		}
+
+		if($viewModel->format) {
+			$model->format = implode(',', $viewModel->format);
+		}
 		
+		$model->status = 'active';
 		$model->price *= 10;
 		if($model->save()) {
 			return $model;
@@ -297,6 +304,10 @@ class ProductService
 		// projeh file
 		if($viewModel->projehFile) {
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
+		}
+
+		if($viewModel->format) {
+			$model->format = implode(',', $viewModel->format);
 		}
 		
 		$model->price *= 10;
@@ -482,6 +493,10 @@ class ProductService
 		// projeh file
 		if($viewModel->projehFile) {
 			$model->projehFileId = $fileService->uploadFile($viewModel->projehFile, 'projeh');
+		}
+
+		if($viewModel->format) {
+			$model->format = implode(',', $viewModel->format);
 		}
 		
 		$model->price *= 10;

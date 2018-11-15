@@ -77,6 +77,9 @@ $this->breadcrumbs=array(
 
     <?php echo $form->textFieldRow($model,'facenamaPageUrl',array('class'=>'span5')); ?>
 
+    <?php echo $form->textFieldRow($model,'projehFormat',array('class'=>'span5')); ?>
+    <p>فرمت‌ها را با کاراکتر ویرگول انگلیسی از هم جدا کنید.</p>
+
     <?php echo $form->textAreaRow($model,'bulletin',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
     
     <p>

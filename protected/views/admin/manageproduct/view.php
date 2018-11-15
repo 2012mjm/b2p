@@ -76,5 +76,7 @@ $this->menu=array(
 			'value'=>implode(' , ',$tags),
 			'type'=>'raw',
 		),
+		'format',
+		'countPage',
 	),
 )); ?>

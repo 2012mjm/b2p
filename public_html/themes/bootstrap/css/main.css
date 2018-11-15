@@ -472,3 +472,10 @@ i.icon-red-email {
 	font-size: 15px;
 	padding: 2px 3px;
 }
+.tags-label {
+	margin-top: 6px;
+	font-size: 14px;
+}
+.tags-label a {
+	color: #fff;
+}

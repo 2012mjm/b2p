@@ -15,6 +15,8 @@ class ProductViewModel extends CFormModel
 	public $creationDate;
 	public $updateDate;
 	public $status;
+	public $format;
+	public $countPage;
 	public $tags;
 	
 	public $photoPath;
@@ -37,10 +39,11 @@ class ProductViewModel extends CFormModel
 		return array(
 			array('categories, title, description', 'required'),
 			array('price', 'numerical', 'integerOnly'=>true, 'min'=>Yii::app()->setting->minPrice),
+			array('countPage', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>128),
 			array('shortDescription', 'length', 'max'=>40),
 			array('status', 'length', 'max'=>8),
-			array('description, updateDate, photo, demoFile, creationDate, userId, tags', 'safe'),
+			array('description, updateDate, photo, demoFile, creationDate, userId, format, tags', 'safe'),
 			array('id', 'unsafe'),
 			
 			array('photo', 'file', 'types'=>'jpg, jpeg, gif, png, bmp', 'allowEmpty'=>true),
@@ -76,6 +79,8 @@ class ProductViewModel extends CFormModel
 			'price' 			=> Yii::t('product', 'Price'),
 			'status' 			=> Yii::t('product', 'Status'),
 			'tags' 				=> Yii::t('product', 'تگ‌ها'),
+			'format' 			=> Yii::t('product', 'فرمت‌های پروژه'),
+			'countPage'			=> Yii::t('product', 'تعداد صفحات پروژه'),
 		);
 	}
 	

@@ -73,11 +73,11 @@ class ProductController extends Controller
 
 		if(!empty($id))
 		{
-			$service 		= new ProductService();
-			$productModel	= new Product();
-			$viewModel 		= new MyProductViewModel('update');
-			$viewModel 		= $service->getMyProductId($id, $viewModel);
-			$viewModel->price /= 10;
+			$service 			= new ProductService();
+			$productModel		= new Product();
+			$viewModel 			= new MyProductViewModel('update');
+			$viewModel 			= $service->getMyProductId($id, $viewModel);
+			$viewModel->price 	/= 10;
 
 			$currentTag = $viewModel->tags;
 			$currentCategory = $viewModel->categories;

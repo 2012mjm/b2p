@@ -65,7 +65,7 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lowWithdraw, lowWithdrawBankComission', 'required'),
+			array('projehFormat, lowWithdraw, lowWithdrawBankComission', 'required'),
 			array('minPrice, lowWithdraw, lowWithdrawBankComission', 'numerical', 'integerOnly'=>true),
 			array('comission', 'numerical'),
 			array('siteName, parsPalMerchantID, parsPalPassword, zarinPalMerchantID', 'length', 'max'=>45),
@@ -132,6 +132,7 @@ class Setting extends CActiveRecord
 			'aparatPageUrl' => 'Aparat Page Url',
 			'lenzorPageUrl' => 'Lenzor Page Url',
 			'facenamaPageUrl' => 'Facenama Page Url',
+			'projehFormat' => 'Projeh format'
 		);
 	}
 

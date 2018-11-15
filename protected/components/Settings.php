@@ -23,6 +23,7 @@ class Settings
 	public $zarinPalMerchantID;
 	public $bulletin;
 	public $yahooID;
+	public $projehFormat;
 	
 	public $facebookPageUrl;
 	public $twitterPageUrl;

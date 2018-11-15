@@ -23,6 +23,7 @@ class SettingViewModel extends CFormModel
 	public $zarinPalMerchantID;
 	public $bulletin;
 	public $yahooID;
+	public $projehFormat;
 	
 	public $facebookPageUrl;
 	public $twitterPageUrl;
@@ -44,7 +45,7 @@ class SettingViewModel extends CFormModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lowWithdraw, lowWithdrawBankComission', 'required'),
+			array('projehFormat, lowWithdraw, lowWithdrawBankComission', 'required'),
 			array('minPrice, lowWithdraw, lowWithdrawBankComission', 'numerical', 'integerOnly'=>true),
 			array('comission', 'numerical'),
 			array('siteName, parsPalMerchantID, parsPalPassword, zarinPalMerchantID', 'length', 'max'=>45),
@@ -96,6 +97,7 @@ class SettingViewModel extends CFormModel
 			'aparatPageUrl' 			=> Yii::t('setting', 'Aparat Page Url'),
 			'lenzorPageUrl' 			=> Yii::t('setting', 'Lenzor Page Url'),
 			'facenamaPageUrl' 			=> Yii::t('setting', 'Facenama Page Url'),
+			'projehFormat' 				=> Yii::t('setting', 'Projeh Format'),
 		);
 	}
 	
