@@ -93,7 +93,7 @@ class ProductService
 			$viewModel->projehFilePath	= ($model->projehFile) 	? Yii::app()->baseUrl . $model->projehFile->filePath . $model->projehFile->fileName : null;
 			$viewModel->projehFileName 	= ($model->projehFile) 	? substr($model->projehFile->fileName, strpos($model->projehFile->fileName, '_')+1) : null;
 
-			$viewModel->format 			= Text::valueToKey(array_map('trim', explode(',', $model->format)));
+			$viewModel->format 			= ($model->format)		? Text::valueToKey(array_map('trim', explode(',', $model->format))) : null;
 
 			//get tags
 			foreach ($model->product2tags as $product2tag) {
@@ -251,6 +251,8 @@ class ProductService
 
 		if($viewModel->format) {
 			$model->format = implode(',', $viewModel->format);
+		} else {
+			$model->format = null;
 		}
 		
 		$model->status = 'active';
@@ -308,6 +310,8 @@ class ProductService
 
 		if($viewModel->format) {
 			$model->format = implode(',', $viewModel->format);
+		} else {
+			$model->format = null;
 		}
 		
 		$model->price *= 10;
@@ -497,6 +501,8 @@ class ProductService
 
 		if($viewModel->format) {
 			$model->format = implode(',', $viewModel->format);
+		} else {
+			$model->format = null;
 		}
 		
 		$model->price *= 10;
