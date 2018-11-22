@@ -2,26 +2,30 @@
 $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 ?>
 
-<h1><?php echo CHtml::link(yii::t('main', 'My Projects'), array('/product/my')); ?></h1>
-
-<?php $this->widget('bootstrap.widgets.TbButton', array(
-    'label'=>Yii::t('product', 'Update Product'),
-    'type'=>'info',
-    'size'=>'small',
-	'url'=>array('/product/myUpdate', 'id'=>$model->id),
-)); ?>
-
-<?php $this->widget('bootstrap.widgets.TbButton', array(
-    'label'=>Yii::t('product', 'Delete Product'),
-    'type'=>'info',
-    'size'=>'small',
-	'url'=>array('/product/myDelete', 'id'=>$model->id),
-	'htmlOptions'=>array('onClick'=>"return confirm('".Yii::t('form', 'Are you sure?')."');"),
-)); ?>
-
-<br /><br />
-
 <?php if($model) : ?>
+
+	<?php if($model->status == 'active') : ?>
+		<h1><?php echo CHtml::link($model->title, array('/product/view', 'id'=>$model->id, 'title'=>Text::generateSeoUrlPersian($model->title))); ?></h1>
+	<?php else : ?>
+		<h1><?php echo $model->title; ?></h1>
+	<?php endif; ?>
+
+	<?php $this->widget('bootstrap.widgets.TbButton', array(
+		'label'=>Yii::t('product', 'Update Product'),
+		'type'=>'info',
+		'size'=>'small',
+		'url'=>array('/product/myUpdate', 'id'=>$model->id),
+	)); ?>
+
+	<?php $this->widget('bootstrap.widgets.TbButton', array(
+		'label'=>Yii::t('product', 'Delete Product'),
+		'type'=>'info',
+		'size'=>'small',
+		'url'=>array('/product/myDelete', 'id'=>$model->id),
+		'htmlOptions'=>array('onClick'=>"return confirm('".Yii::t('form', 'Are you sure?')."');"),
+	)); ?>
+
+	<br /><br />
 
 	<?php if(!empty($model->statusReason) AND $model->reasonOnlyShowAdmin != '1') echo '<br><div class="alert alert-warning" role="alert"><strong style="color:red">یادداشت مدیر:</strong> '.$model->statusReason.'</div><br>'; ?>
 
@@ -39,7 +43,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'My Projects');
 		    'attributes'=>array(
 				array(
 					'label'=>'دسته‌ها',
-					'value'=>implode(' | ',$categories),
+					'value'=>implode('<br>',$categories),
 					'type'=>'raw',
 				),
 				array(

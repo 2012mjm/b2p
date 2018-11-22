@@ -45,6 +45,8 @@ $this->menu=array(
 
     <?php echo $form->textFieldRow($model,'birthday',array('class'=>'span5')); ?>
 
+    <?php echo $form->textFieldRow($model,'fieldStudy',array('class'=>'span5')); ?>
+
     <?php echo $form->textFieldRow($model,'bankName',array('class'=>'span5','maxlength'=>10)); ?>
 
     <?php echo $form->textFieldRow($model,'bankAccountNumber',array('class'=>'span5')); ?>

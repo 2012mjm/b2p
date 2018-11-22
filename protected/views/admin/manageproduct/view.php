@@ -14,6 +14,12 @@ $this->menu=array(
 );
 ?>
 
+<?php if($model->status == 'active') : ?>
+	<?php $title = CHtml::link($model->title, array('/product/view', 'id'=>$model->id, 'title'=>Text::generateSeoUrlPersian($model->title))); ?>
+<?php else : ?>
+	<?php $title = $model->title; ?>
+<?php endif; ?>
+
 <h1>ID #<?php echo $model->id; ?></h1>
 
 <?php if(!empty($model->statusReason)) echo '<br><div class="alert alert-warning" role="alert"><strong style="color:red">یادداشت مدیر:</strong> '.$model->statusReason.'</div><br>'; ?>
@@ -29,10 +35,19 @@ $this->menu=array(
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
 	'attributes'=>array(
-		'title',
+		array(
+			'name'=>'title',
+			'value'=>$title,
+			'type'=>'raw',
+		),
+		array(
+			'label'=>'ایجاد شده توسط',
+			'value'=>CHtml::link($model->user->username, array("/admin/manageuser/view", "id"=>$model->user->id)),
+			'type'=>'raw',
+		),
 		array(
 			'label'=>'دسته‌ها',
-			'value'=>implode(' | ',$categories),
+			'value'=>implode('<br>',$categories),
 			'type'=>'raw',
 		),
 		'shortDescription',
