@@ -360,6 +360,7 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			
 			<blockquote>
 				<small><?php echo Yii::t('product', 'The project file as the original file and the link will appear to the customer after purchase.'); ?></small>
+				<small style="color:red"><?php echo Yii::t('product', 'حداکثر حجم فایل پروژه 50 مگابایت می‌باشد.'); ?></small>
 			</blockquote>
 		</div>
 	</div>

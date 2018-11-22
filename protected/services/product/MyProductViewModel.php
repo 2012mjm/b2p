@@ -44,10 +44,10 @@ class MyProductViewModel extends CFormModel
 			array('status', 'length', 'max'=>8),
 			array('id, description, updateDate, photo, demoFile, creationDate, userId, tags, format', 'safe'),
 			
-			array('photo', 'file', 'types'=>'jpg, jpeg, gif, png, bmp', 'allowEmpty'=>true),
-			array('demoFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>true),
-			array('projehFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>false, 'on'=>'create'),
-			array('projehFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>true, 'on'=>'update'),
+			array('photo', 'file', 'types'=>'jpg, jpeg, gif, png, bmp', 'allowEmpty'=>true, 'maxSize'=>5*1024*1024, 'tooLarge'=>'حداکثر حجم تصویر ۵ مگابایت می‌باشد.'),
+			array('demoFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>true, 'maxSize'=>10*1024*1024, 'tooLarge'=>'حداکثر حجم فایل دمو ۱۰ مگابایت می‌باشد.'),
+			array('projehFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>false, 'maxSize'=>50*1024*1024, 'tooLarge'=>'حداکثر حجم فایل پروژه ۵۰ مگابایت می‌باشد.', 'on'=>'create'),
+			array('projehFile', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt, docx, doc, pdf', 'allowEmpty'=>true, 'maxSize'=>50*1024*1024, 'tooLarge'=>'حداکثر حجم فایل پروژه ۵۰ مگابایت می‌باشد.', 'on'=>'update'),
 			//array('attaches', 'file', 'types'=>'jpg, jpeg, gif, png, bmp, zip, rar, txt', 'maxFiles'=>'999999999'),
 			
 			array('shortDescription, description', 'filter', 'filter'=>array($obj=new CHtmlPurifier(),'purify')),
