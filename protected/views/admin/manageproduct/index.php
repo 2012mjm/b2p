@@ -31,8 +31,17 @@ $this->breadcrumbs=array(
             'class' => 'CCheckBoxColumn'
         ),
 		//'id',
-		'title',
-        'user.username',
+		array(
+			'name'=>'title',
+			'value'=>'CHtml::link(mb_substr($data->title, 0, 20, "UTF-8").((strlen($data->title) > 20) ? " . . ." : ""), array("/product/view", "id"=>$data->id, "title"=>Text::generateSeoUrlPersian($data->title)))',
+			'header'=>Yii::t("product", "Product Title"),
+			'type'=>'raw',
+		),
+		array(
+			'name'=>'user.username',
+			'value'=>'CHtml::link($data->user->username, array("/admin/manageuser/view", "id"=>$data->user->id))',
+			'type'=>'raw',
+		),
         array(
         	'name'=>'price',
         	'value'=>'Yii::app()->format->formatPrice($data->price)',
