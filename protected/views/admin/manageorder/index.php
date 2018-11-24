@@ -2,7 +2,9 @@
 <br>
 
 <blockquote>
-	<p>مجموع پورسانت: <span style="color:green"><?php echo Yii::app()->format->formatPrice($totalComission); ?></span></p>
+	<p style="margin-bottom: 5px">مجموع کل تراکنش‌ها: <span style="color:green"><?php echo Yii::app()->format->formatPrice($totalPay['total']); ?></span></p>
+	<p style="margin-bottom: 5px">مجموع کل پورسانت‌ها: <span style="color:green"><?php echo Yii::app()->format->formatPrice($totalPay['comission']); ?></span></p>
+	<p>تعداد فروش: <span style="color:green"><?php echo $totalPay['count']; ?></span></p>
 </blockquote>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(

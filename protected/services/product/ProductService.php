@@ -40,6 +40,8 @@ class ProductService
 			foreach ($model->product2subcategories as $product2subcategory) {
 				$viewModel->categories[$product2subcategory->subcategory->id] = $product2subcategory->subcategory->category->name.' - '.$product2subcategory->subcategory->name;
 			}
+
+			$viewModel->format = ($model->format) ? Text::valueToKey(array_map('trim', explode(',', $model->format))) : null;
 		
 			return $viewModel;
 		}
@@ -687,9 +689,12 @@ class ProductService
 		$notExistTags = array_diff((array)$currentTags, $existTags);
 		foreach ($notExistTags as $newTag)
 		{
-			$tagModel = new Tag();
-			$tagModel->name = $newTag;
-			$tagModel->save();
+			$findTag = Tag::model()->findByAttributes(array('name'=>$newTag));
+			if(!$findTag) {
+				$tagModel = new Tag();
+				$tagModel->name = $newTag;
+				$tagModel->save();
+			}
 			
 			$existTags[$tagModel->id] = $tagModel->name;
 		}

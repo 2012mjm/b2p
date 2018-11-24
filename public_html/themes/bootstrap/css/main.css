@@ -479,3 +479,6 @@ i.icon-red-email {
 .tags-label a {
 	color: #fff;
 }
+.row-blue {
+	background-color: rgba(0,0,255,0.1);
+}

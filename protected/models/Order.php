@@ -56,7 +56,7 @@ class Order extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('paymentId, productId, price, trackingCode, projehFileId, linkDownload, creationDate', 'required'),
-			array('paymentId, productId, userId, price, count, systemComission, projehFileId, isRead', 'numerical', 'integerOnly'=>true),
+			array('paymentId, productId, userId, price, count, systemComission, projehFileId, isRead, productOwnerIsRead', 'numerical', 'integerOnly'=>true),
 			array('trackingCode, linkDownload', 'length', 'max'=>20),
 			array('email', 'length', 'max'=>255),
 			array('ip', 'length', 'max'=>15),

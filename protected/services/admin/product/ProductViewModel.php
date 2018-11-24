@@ -11,7 +11,6 @@ class ProductViewModel extends CFormModel
 	public $demoFile;
 	public $projehFile;
 	public $price;
-	public $visit;
 	public $creationDate;
 	public $updateDate;
 	public $status;

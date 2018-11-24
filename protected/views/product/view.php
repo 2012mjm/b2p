@@ -23,9 +23,11 @@
 
 			<h3><?php echo CHtml::encode($model->title); ?></h3>
 			
+			<?php if($model->shortDescription) : ?>
 			<div style="background-color: #49afcd14;padding: 10px 10px 1px;border-right: 5px solid #49afcd; margin-bottom: 15px;">
-				<p><?php echo (empty($model->shortDescription)) ? trim(Text::ellipsis(strip_tags($model->description), 100)) : $model->shortDescription; ?></p>
+				<p><?php echo $model->shortDescription; ?></p>
 			</div>
+			<?php endif; ?>
 
 			<div>
 				<div style="width:50px; float:right"><?php echo Yii::t('product', 'قیمت'); ?></div>

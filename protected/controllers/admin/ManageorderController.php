@@ -57,7 +57,7 @@ class ManageorderController extends Controller
 	public function actionIndex()
 	{
 		$orderService = new OrderService();
-		$totalComission = $orderService->getTotalComission();
+		$totalPay = $orderService->getTotalPay();
 
 		$criteria = new CDbCriteria;
 		$criteria->order = 't.id DESC';
@@ -76,7 +76,7 @@ class ManageorderController extends Controller
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-			'totalComission'=>$totalComission,
+			'totalPay'=>$totalPay,
 		));
 	}
 

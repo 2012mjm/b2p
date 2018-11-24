@@ -529,7 +529,7 @@ class ProductController extends Controller
 	
 	public function actionAjaxTag()
 	{
-		$q = $_GET['q'];
+		$q = str_replace(['#', '،'], '', $_GET['q']);
 		
 		$criteria = new CDbCriteria();
 		$criteria->compare('t.name', $q, true);

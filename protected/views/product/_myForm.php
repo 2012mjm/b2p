@@ -319,6 +319,7 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			
 			<blockquote>
 				<small><?php echo Yii::t('product', 'The file is placed in this section, is available for download by all users.'); ?></small>
+				<small><?php echo Yii::t('product', 'حداکثر حجم فایل دمو 3 مگابایت می‌باشد.'); ?></small>
 			</blockquote>
 		</div>
 	</div>
@@ -360,7 +361,7 @@ Yii::app()->getClientScript()->registerScript('select_tag', '
 			
 			<blockquote>
 				<small><?php echo Yii::t('product', 'The project file as the original file and the link will appear to the customer after purchase.'); ?></small>
-				<small style="color:red"><?php echo Yii::t('product', 'حداکثر حجم فایل پروژه 50 مگابایت می‌باشد.'); ?></small>
+				<small><?php echo Yii::t('product', 'حداکثر حجم فایل پروژه 50 مگابایت می‌باشد.'); ?></small>
 			</blockquote>
 		</div>
 	</div>

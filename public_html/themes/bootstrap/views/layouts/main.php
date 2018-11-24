@@ -47,6 +47,7 @@ echo '</div>' . "\n";
 <div class="container" id="page">
 	
 	<?php if(!Yii::app()->user->isGuest) : ?>
+		<?php $countUnreadOrder = OrderService::countOwnerUnread(); ?>
 		<?php $countUnreadTicket = TicketService::countUnread(); ?>
 		<div class="user-menu">
 			<div class="navbar navbar-inverse navbar-fixed-top">
@@ -63,7 +64,7 @@ echo '</div>' . "\n";
 								<li><?php echo CHtml::link(yii::t('main', 'My Profile'), array('/user/profile')); ?></li>
 								<li><?php echo CHtml::link(yii::t('main', 'My Projects'), array('/product/my')); ?></li>
 								<li><?php echo CHtml::link(yii::t('main', 'My Orders'), array('/order/index')); ?></li>
-								<li><?php echo CHtml::link(yii::t('main', 'فروش من'), array('/sale/index')); ?></li>
+								<li><?php echo CHtml::link(yii::t('main', 'فروش من').' <span class="badge badge-'.(($countUnreadOrder > 0) ? 'important' : 'inverse').'">'.$countUnreadOrder.'</span>', array('/sale/index')); ?></li>
 								<li><?php echo CHtml::link(yii::t('main', 'My Credit'), array('/credit/index')); ?></li>
 								
 								<?php if(Yii::app()->user->id != 1) : ?>
@@ -239,20 +240,20 @@ echo '</div>' . "\n";
 
 			<?php endif; ?>
 			
-			<?php if($tags = TagService::getTopArrayListTags()) : ?>
+			<?php //if($tags = TagService::getTopArrayListTags()) : ?>
 			
 			<div style="margin: 30px auto 0;">
 				<h4 style="background-color: #fbfbfb; padding: 5px 10px;">تگ های برتر</h4>
 				<ul class="nav nav-list">
-				<?php foreach ($tags as $tag) : ?>
+				<?php //foreach ($tags as $tag) : ?>
 					<li>
-						<?php echo CHtml::link($tag->name.' ('.$tag->count.' پروژه)', array('product/tag', 'id'=>$tag->id, 'title'=>Text::generateSeoUrlPersian($tag->name))); ?>
+						<?php //echo CHtml::link($tag->name.' ('.$tag->count.' پروژه)', array('product/tag', 'id'=>$tag->id, 'title'=>Text::generateSeoUrlPersian($tag->name))); ?>
 					</li>
-				<?php endforeach; ?>
+				<?php //endforeach; ?>
 				</ul>
 			</div>
 
-			<?php endif; ?>
+			<?php //endif; ?>
 			
 		
 			<div style="margin: 50px auto 0;" id="max-count-sell">

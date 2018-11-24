@@ -67,6 +67,7 @@ class OrderService
 		$model->linkDownload 	= $this->generateDownloadLink();
 		$model->systemComission	= Yii::app()->setting->comission;
 		$model->ip 				= Yii::app()->request->userHostAddress;
+		$model->productOwnerIsRead = 0;
 
 		if($model->save()) {
 			return $count * $model->price;
@@ -582,19 +583,51 @@ class OrderService
 		return Order::model()->count($criteria);
 	}
 	
+	public static function countOwnerUnread()
+	{
+		$criteria = new CDbCriteria;
+		$criteria->with[] = 'product';
+		$criteria->compare('t.status', 'accepted');
+		$criteria->compare('t.productOwnerIsRead', '0');
+		$criteria->compare('product.userId', Yii::app()->user->id);
+
+		return Order::model()->count($criteria);
+	}
+	
+	public static function isReadOwnerUnread()
+	{
+		// update all is read
+		$criteria = new CDbCriteria;
+		$criteria->with[] = 'product';
+		$criteria->compare('t.status', 'accepted');
+		$criteria->compare('t.productOwnerIsRead', '0');
+		$criteria->compare('product.userId', Yii::app()->user->id);
+		$modelsUnread = Order::model()->findAll($criteria);
+		if($modelsUnread) {
+			foreach ($modelsUnread as $modelUnread) {
+				$modelUnread->productOwnerIsRead = 1;
+				$modelUnread->save();
+			}
+		}
+	}
+	
 	/**
 	 * get sum order
 	 */
-	public function getTotalComission()
+	public function getTotalPay()
 	{
 		$criteria = new CDbCriteria();
 		$criteria->compare('t.status', 'accepted');
-		$criteria->select = 'SUM(t.count * t.price) AS id';
+		$criteria->select = 'SUM(t.count * t.price) AS price, COUNT(t.id) AS id';
 		
 		$model = Order::model()->find($criteria);
 		
 		if($model) {
-			return $model->id * Yii::app()->setting->comission / 100;
+			return array(
+				'count' => $model->id,
+				'total' => $model->price,
+				'comission' => $model->price * Yii::app()->setting->comission / 100
+			);
 		}
 		return 0;
 	}

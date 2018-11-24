@@ -16,6 +16,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'فروش من');
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'order-grid',
 	'dataProvider'=>$dataProviderOrder,
+	'rowCssClassExpression'=> '(!$data->productOwnerIsRead) ? "row-blue" : ""',
 	'columns'=>array(
 		array(
 			'name'=>'product.title',
@@ -48,4 +49,7 @@ $this->siteTitle=Yii::app()->name . ' - '.yii::t('main', 'فروش من');
 			'footer'=>Yii::t('product', 'Final price').': '.Yii::app()->format->formatPrice($totalSalePrice).'<br>'.Yii::t('product', 'جمع کل با احتساب کارمزد').': '.Yii::app()->format->formatPrice($totalSalePriceWithCommission),
         ),
 	),
-)); ?>
+));
+
+OrderService::isReadOwnerUnread();
+?>
