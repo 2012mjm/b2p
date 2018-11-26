@@ -103,6 +103,8 @@ class ManageproductController extends Controller
 		if(isset($_POST['ProductViewModel']))
 		{
 			$viewModel->attributes 	= $_POST['ProductViewModel'];
+			$viewModel->format 		= $_POST['ProductViewModel']['format'];
+			$viewModel->tags 		= $_POST['ProductViewModel']['tags'];
 			$viewModel->photo 		= CUploadedFile::getInstance($viewModel, 'photo');
 			$viewModel->demoFile 	= CUploadedFile::getInstance($viewModel, 'demoFile');
 			$viewModel->projehFile 	= CUploadedFile::getInstance($viewModel, 'projehFile');

@@ -11,7 +11,7 @@
 			'htmlOptions'=>array('class'=>'price-product')
 		));*/ ?>
 		
-		<div class="description-product"><?php echo (!$data->shortDescription) ? trim(Text::ellipsis(strip_tags($data->description), 100)) : $data->shortDescription; ?></div>
+		<div class="description-product"><?php echo (empty($data->shortDescription) && $data->shortDescription != '0') ? trim(Text::ellipsis(strip_tags($data->description), 40)) : $data->shortDescription; ?></div>
 		
 		<div class="button-product">
 			<?php $this->widget('bootstrap.widgets.TbButton', array(

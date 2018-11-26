@@ -85,6 +85,8 @@ class ProductController extends Controller
 			if(isset($_POST['MyProductViewModel']))
 			{
 				$viewModel->attributes 	= $_POST['MyProductViewModel'];
+				$viewModel->format 		= $_POST['MyProductViewModel']['format'];
+				$viewModel->tags 		= $_POST['MyProductViewModel']['tags'];
 				$viewModel->updateDate	= date('Y-m-d H:i:s');
 				$viewModel->photo 		= CUploadedFile::getInstance($viewModel, 'photo');
 				$viewModel->demoFile 	= CUploadedFile::getInstance($viewModel, 'demoFile');
