@@ -312,13 +312,7 @@ echo '</div>' . "\n";
 
 		<?php if(!$this->isLocal) : ?>
 		<div style="float: right">
-			<!-- PersianStat -->
-			<!-- URL: http://bia2projeh.ir -->
-			<script language='javascript' type='text/javascript' src='http://www.persianstat.com/service/stat.js'></script>
-			<script language='javascript' type='text/javascript'>
-			persianstat(10207550, 0);
-			</script>
-			<!-- /PersianStat -->
+
 		</div>
 
 		<div style="display: inline; float: right; margin-top: -2px; margin-right: 5px;">
