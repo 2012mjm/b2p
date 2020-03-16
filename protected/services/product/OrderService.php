@@ -335,6 +335,52 @@ class OrderService
 			return $Status; 
 		}
 	}
+	
+	/**
+	 * ************* PARS PAL ****************
+	 */
+	public function sendToRestParsPal($paymentModel)
+	{
+		$postData = array(
+			'amount' 		=> $paymentModel->price/10,
+			'return_url' 	=> Yii::app()->createAbsoluteUrl('order/verify'),
+			'order_id' 		=> $paymentModel->trackingCode,
+			'description' 	=> null,
+			'reserve_id' 	=> null,
+		);
+
+		$curl = curl_init();
+
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_URL, "https://api.parspal.com/v1/payment/request");
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+    		"APIKEY: " . Yii::app()->setting->parsPalMerchantID,
+    		"Content-Type: application/json"
+		));
+
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData));
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		$result = curl_exec($curl);
+
+		if (!$result) {
+    		return "در ارتباط با سیستم پرداخت بانک مشکلی پیش آمده است!";
+		}
+
+		curl_close($curl);
+		$response = json_decode($result, true);
+		$status  = $response["status"];
+		if ($status != "ACCEPTED") {
+			$message = $response["message"];// توضیحات فارسی در رابطه با وضعیت درخواست
+			return "خطا در ثبت درخواست پرداخت! وضعیت خطا : " . $status . " - توضیحات : " . $message;	
+		}
+
+		$payment_link = $response["link"];// مسیر پرداخت
+		$payment_id   = $response["payment_id"];// شناسه یا کد پیگیری درخواست پرداخت که می توانید در بازگشت و یا در مواردی برای استعلام از آن استفاده نمایید
+
+		$cHttpRequest = new CHttpRequest;
+		return $cHttpRequest->redirect($payment_link);
+	}
 
 	/**
 	 * *************** ZARIN PAL **************
@@ -404,6 +450,60 @@ class OrderService
 			'trackingCode'=>$Resnumber,
 			'price'=>$price, //$price : Rial
 			'statusCode'=>$StatusCode,
+		);
+	}
+
+	/**
+	 * *********************** PARS PAL ************************
+	 * @param unknown $post
+	 * @param unknown $price
+	 * @return multitype:number unknown unknown
+	 */
+	public function receiveRestFromParsPal($post, $price)
+	{
+		$receiptNumber = $post["receipt_number"];
+		$orderId       = $post["order_id"];
+		$statusCode    = $post["status"];
+
+		$postData = array(
+			'amount' => $price/10,
+			'receipt_number' => $receiptNumber
+		);
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_POST, TRUE);
+		curl_setopt($curl, CURLOPT_URL, 'https://api.parspal.com/v1/payment/verify');
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+			"APIKEY: " . Yii::app()->setting->parsPalMerchantID,
+			"Content-Type: application/json"
+		));
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData));
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+		$result = curl_exec($curl);
+		if (!$result) {
+			return "خطای درگاه بانک";
+		}
+
+		curl_close($curl);
+		$response = json_decode($result, true);
+		$status  = $response["status"];
+
+		// if ($status == "SUCCESSFUL") {
+		// 	echo "پرداخت با شماره رسید " . $receiptNumber . " با موفقیت تایید گردید";
+		// } else {
+		// 	$message = $response["message"];// توضیحات فارسی در رابطه با وضعیت درخواست
+		// 	echo "خطا در تایید رسید پرداخت ! وضعیت خطا : " . $status . " - توضیحات : " . $message;
+		// }
+
+		return array(
+			'payPrice'		=> $price,
+			'status'		=> $status,
+			'reffererCode'	=> $receiptNumber,
+			'trackingCode'	=> $orderId,
+			'price'			=> $price,
+			'statusCode'	=> $statusCode,
 		);
 	}
 	

@@ -307,8 +307,9 @@ class ProductController extends Controller
 						$paymentModel->price = $totalPrice;
 						$paymentModel->save();
 						
-						$res = $orderService->sendToParsPal($paymentModel);
-// 						$res = $orderService->sendToZarinPal($paymentModel);
+						$res = $orderService->sendToRestParsPal($paymentModel);
+						// $res = $orderService->sendToParsPal($paymentModel);
+ 						// $res = $orderService->sendToZarinPal($paymentModel);
 
 						//set log
 						$log = new LogService;
@@ -316,7 +317,7 @@ class ProductController extends Controller
 						$log->description = "پرداخت مبلغ ".($totalPrice/10)." تومان، در ارتباط با سیستم پرداخت بانک مشکلی پیش آمده است! خطای: ".$res;
 						$log->save();
 						
-						Yii::app()->user->setFlash('error', 'در ارتباط با سیستم پرداخت بانک مشکلی پیش آمده است!');
+						Yii::app()->user->setFlash('error', $res);
 						//$this->redirect(isset(Yii::app()->request->urlReferrer) ? Yii::app()->request->urlReferrer : array('/main'));
 					}
 				} else {
