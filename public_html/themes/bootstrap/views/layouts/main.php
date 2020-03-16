@@ -192,9 +192,9 @@ echo '</div>' . "\n";
 
 				 <script type="text/javascript"  src="http://www.arianpal.com/xContext/Component/Verify/?UI=d99be41655a34d5389d4a6c5d880bf9b&GID=160130012&MID=824D1498686670B305F762A79AB76A7EBAD914D8&Mode=6" >
 				</script>
-				<noscript><a title="درگاه پرداخت"  href="http://www.parspal.org" >درگاه پرداخت پارس پال</a></noscript>
+				<?php /*<noscript><a title="درگاه پرداخت"  href="http://www.parspal.org" >درگاه پرداخت پارس پال</a></noscript>*/ ?>
 
-				<?php /*<script type="text/javascript" src="https://www.arianpal.com/webservice/TrustCode"></script><noscript><a href="https://www.zarinpal.com/users/receptive_websites">ZarinPal Receptive Websites</a></noscript>*/ ?>
+				<script type="text/javascript" src="https://www.arianpal.com/webservice/TrustCode"></script><noscript><a href="https://www.zarinpal.com/users/receptive_websites">ZarinPal Receptive Websites</a></noscript>
 				<!-- Gateway Verify Logo -->
 			</div>
 			<?php endif; ?>
