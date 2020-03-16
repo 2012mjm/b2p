@@ -194,7 +194,7 @@ echo '</div>' . "\n";
 				</script>
 				<?php /*<noscript><a title="درگاه پرداخت"  href="http://www.parspal.org" >درگاه پرداخت پارس پال</a></noscript>*/ ?>
 
-				<script type="text/javascript" src="https://www.arianpal.com/webservice/TrustCode"></script><noscript><a href="https://www.zarinpal.com/users/receptive_websites">ZarinPal Receptive Websites</a></noscript>
+				<script src="https://cdn.zarinpal.com/trustlogo/v1/trustlogo.js" type="text/javascript"></script>
 				<!-- Gateway Verify Logo -->
 			</div>
 			<?php endif; ?>
