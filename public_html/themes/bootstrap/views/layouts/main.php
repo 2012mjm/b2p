@@ -190,8 +190,7 @@ echo '</div>' . "\n";
 			<div style="text-align: center; margin: 0 auto 20px">
 				<!-- Gateway Verify Logo -->
 
-				 <script type="text/javascript"  src="http://www.arianpal.com/xContext/Component/Verify/?UI=d99be41655a34d5389d4a6c5d880bf9b&GID=160130012&MID=824D1498686670B305F762A79AB76A7EBAD914D8&Mode=6" >
-				</script>
+				<?php /*<script type="text/javascript"  src="http://www.arianpal.com/xContext/Component/Verify/?UI=d99be41655a34d5389d4a6c5d880bf9b&GID=160130012&MID=824D1498686670B305F762A79AB76A7EBAD914D8&Mode=6" />*/ ?>
 				<?php /*<noscript><a title="درگاه پرداخت"  href="http://www.parspal.org" >درگاه پرداخت پارس پال</a></noscript>*/ ?>
 
 				<script src="https://cdn.zarinpal.com/trustlogo/v1/trustlogo.js" type="text/javascript"></script>
