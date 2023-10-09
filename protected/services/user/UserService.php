@@ -88,7 +88,13 @@ class UserService
 		$headers = "From: " . Yii::app()->setting->adminEmail . "\r\n" .
 				"Content-type: text/html; charset=UTF-8";
 
-		mail($to,$subject,$message,$headers);
+		// mail($to,$subject,$message,$headers);
+		$mail=Yii::app()->Smtpmail;
+        $mail->SetFrom(Yii::app()->setting->adminEmail, 'Bia2Projeh');
+        $mail->Subject = $subject;
+        $mail->MsgHTML($message);
+        $mail->AddAddress($to, "");
+        $mail->Send();
 	
 		return $userModel->save();
 	}
@@ -288,7 +294,13 @@ class UserService
 		$headers = "From: " . Yii::app()->setting->adminEmail . "\r\n" .
 				"Content-type: text/html; charset=UTF-8";
 		
-		mail($to,$subject,$message,$headers);
+		// mail($to,$subject,$message,$headers);
+		$mail=Yii::app()->Smtpmail;
+        $mail->SetFrom(Yii::app()->setting->adminEmail, 'Bia2Projeh');
+        $mail->Subject = $subject;
+        $mail->MsgHTML($message);
+        $mail->AddAddress($to, "");
+        $mail->Send();
 
 		return $userModel->save();
 	}

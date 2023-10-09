@@ -170,5 +170,14 @@ return array(
 			// ImageMagick setup path
 			//'params'=>array('directory'=>'/opt/local/bin'),
 		),
+		'Smtpmail'=>array(
+            'class'=>'application.extensions.smtpmail.PHPMailer',
+            'Host'=>"mail.bia2projeh.ir",
+            'Username'=>'test@yourdomain.com',
+            'Password'=>'test',
+            'Mailer'=>'smtp',
+            'Port'=>26,
+            'SMTPAuth'=>true, 
+        ),
 	),
 );
